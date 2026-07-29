@@ -87,15 +87,8 @@ export default function Navbar({ personal, visibleSections }) {
             <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.08] bg-[#0A0A0A]/80 backdrop-blur-2xl">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 items-center justify-between">
-                        <button type="button" onClick={() => scrollToSection("hero")} className="flex items-center gap-2.5">
-                            {personal?.photo_url ? (
-                                <img src={personal.photo_url} alt={personal?.name || "Profile"} className="h-9 w-9 rounded-full border border-white/15 object-cover" />
-                            ) : (
-                                <img src="/dije.png" alt={personal?.name || "Profile"} className="h-9 w-9 rounded-full border border-white/15 object-cover" />
-                            )}
-                            <span className="font-['Syne'] text-2xl font-extrabold tracking-tight text-white hover:text-[#FF6B35]">
-                                {firstName}
-                            </span>
+                        <button type="button" onClick={() => scrollToSection("hero")} className="font-['Syne'] text-2xl font-extrabold tracking-tight text-white hover:text-[#FF6B35]">
+                            {firstName}
                         </button>
                         <div className="hidden items-center gap-1 lg:flex lg:gap-2">
                             {visibleNavItems.map((item) => (
