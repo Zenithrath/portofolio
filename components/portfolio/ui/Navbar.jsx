@@ -8,7 +8,6 @@ import {
     Download,
     FileText,
     FolderKanban,
-    GraduationCap,
     LayoutDashboard,
     Menu,
     X,

@@ -34,7 +34,7 @@ export default function Sidebar({ activeTab, onChange, open, onClose, onOpen }: 
   const content = <><div className="flex h-16 items-center justify-between border-b border-white/[0.1] px-5"><span className="font-['Syne'] text-lg font-extrabold text-white">Djibril<span className="text-[#FF3D00]">.</span></span><button type="button" onClick={onClose} className="p-1 text-white/50 hover:text-white lg:hidden"><X className="h-5 w-5" /></button></div>{navigation}<div className="border-t border-white/[0.1] p-3"><button type="button" onClick={signOut} className="flex w-full items-center gap-3 px-3 py-3 text-left text-sm font-semibold text-white/55 transition hover:bg-white/[0.04] hover:text-white"><LogOut className="h-4 w-4 text-[#FF6B35]" />Keluar</button></div></>;
 
   return <>
-    <aside className="sticky top-0 hidden h-screen w-60 shrink-0 flex-col border-r border-white/[0.1] bg-[#101211] lg:flex">{content}</aside>
+    <aside className="sticky top-0 hidden h-dvh w-60 shrink-0 flex-col border-r border-white/[0.1] bg-[#101211] lg:flex">{content}</aside>
     <button type="button" aria-label="Buka navigasi" onClick={onOpen} className="fixed left-4 top-4 z-30 flex h-10 w-10 items-center justify-center border border-white/[0.15] bg-[#101211] text-white lg:hidden"><Menu className="h-5 w-5" /></button>
     {open && <div className="fixed inset-0 z-40 lg:hidden"><button aria-label="Tutup navigasi" type="button" onClick={onClose} className="absolute inset-0 bg-black/70" /><aside className="relative z-10 flex h-full w-[min(82vw,300px)] flex-col border-r border-white/[0.1] bg-[#101211]">{content}</aside></div>}
   </>;
