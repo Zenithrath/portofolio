@@ -88,7 +88,7 @@ export default function Navbar({ personal, visibleSections }) {
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 items-center justify-between">
                         <button type="button" onClick={() => scrollToSection("hero")} className="font-['Syne'] text-2xl font-extrabold tracking-tight text-white hover:text-[#FF6B35]">
-                            {firstName}
+                            {firstName}<span className="text-[#FF3D00]">.</span>
                         </button>
                         <div className="hidden items-center gap-1 lg:flex lg:gap-2">
                             {visibleNavItems.map((item) => (
@@ -122,7 +122,7 @@ export default function Navbar({ personal, visibleSections }) {
                         <motion.button type="button" aria-label="Close menu" className="fixed inset-0 z-[998] bg-black/70 lg:hidden" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsMobileOpen(false)} />
                         <motion.aside className="fixed left-0 top-0 z-[999] flex h-full w-[min(88vw,390px)] flex-col border-r border-white/[0.1] bg-[#090C10] lg:hidden" initial={{ x: "-100%" }} animate={{ x: 0 }} exit={{ x: "-100%" }} transition={{ type: "spring", damping: 27, stiffness: 280 }}>
                             <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-5">
-                                <button type="button" onClick={() => scrollToSection("hero")} className="font-['Syne'] text-xl font-extrabold text-white">{firstName}</button>
+                                <button type="button" onClick={() => scrollToSection("hero")} className="font-['Syne'] text-xl font-extrabold text-white">{firstName}<span className="text-[#FF3D00]">.</span></button>
                                 <button type="button" aria-label="Close menu" onClick={() => setIsMobileOpen(false)} className="flex h-9 w-9 items-center justify-center rounded-xl text-white/60 hover:bg-white/[0.06] hover:text-white"><X size={22} /></button>
                             </div>
                             <div className="border-b border-white/[0.08] px-5 py-6">
