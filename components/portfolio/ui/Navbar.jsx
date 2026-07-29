@@ -87,8 +87,17 @@ export default function Navbar({ personal, visibleSections }) {
             <nav className="fixed inset-x-0 top-0 z-50 border-b border-white/[0.08] bg-[#0A0A0A]/80 backdrop-blur-2xl">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 items-center justify-between">
-                        <button type="button" onClick={() => scrollToSection("hero")} className="font-['Syne'] text-2xl font-extrabold tracking-tight text-white hover:text-[#FF6B35]">
-                            {firstName}<span className="text-[#FF3D00]">.</span>
+                        <button type="button" onClick={() => scrollToSection("hero")} className="flex items-center gap-2.5">
+                            {personal?.photo_url ? (
+                                <img src={personal.photo_url} alt={personal?.name || "Profile"} className="h-9 w-9 rounded-full border border-white/15 object-cover" />
+                            ) : (
+                                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#FF3D00] font-['Syne'] text-sm font-extrabold text-white">
+                                    {firstName.charAt(0)}
+                                </div>
+                            )}
+                            <span className="font-['Syne'] text-2xl font-extrabold tracking-tight text-white hover:text-[#FF6B35]">
+                                {firstName}<span className="text-[#FF3D00]">.</span>
+                            </span>
                         </button>
                         <div className="hidden items-center gap-1 lg:flex lg:gap-2">
                             {visibleNavItems.map((item) => (
@@ -127,7 +136,11 @@ export default function Navbar({ personal, visibleSections }) {
                             </div>
                             <div className="border-b border-white/[0.08] px-5 py-6">
                                 <div className="flex items-center gap-3">
-                                    <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FF3D00] text-white"><GraduationCap size={23} /></div>
+                                    {personal?.photo_url ? (
+                                        <img src={personal.photo_url} alt={personal?.name || "Profile"} className="h-11 w-11 rounded-xl border border-white/15 object-cover" />
+                                    ) : (
+                                        <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#FF3D00] text-white"><GraduationCap size={23} /></div>
+                                    )}
                                     <div className="min-w-0"><p className="truncate text-base font-semibold text-white">{personal?.name || "Portofolio"}</p><p className="truncate text-xs text-white/45">{personal?.title || "Profil sedang disiapkan"}</p></div>
                                 </div>
                                 <div className="mt-4 flex items-center gap-2 font-mono text-[9px] uppercase tracking-[0.18em] text-white/45"><span className="h-2 w-2 shrink-0 rounded-full bg-[#FF3D00]" /> <span className="truncate">{availability || "Status belum diatur"}</span></div>
