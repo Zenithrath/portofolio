@@ -18,6 +18,29 @@ const journeyLabels = {
     achievement: "Pencapaian",
 };
 
+const views = {
+    work: {
+        label: "Pekerjaan",
+        title: "Pengalaman\nKerja",
+        description: "Peran, tanggung jawab, dan kontribusi yang membentuk cara saya bekerja.",
+    },
+    education: {
+        label: "Pendidikan",
+        title: "Riwayat\nPendidikan",
+        description: "Pendidikan dan proses belajar yang membentuk fondasi saya.",
+    },
+    organization: {
+        label: "Organisasi",
+        title: "Pengalaman\nOrganisasi",
+        description: "Ruang kolaborasi dan tanggung jawab yang pernah saya jalani.",
+    },
+    achievement: {
+        label: "Achievement",
+        title: "Pencapaian\nSaya",
+        description: "Pencapaian yang menandai proses belajar dan perkembangan saya.",
+    },
+};
+
 function formatDate(dateString) {
     if (!dateString) return "";
 
@@ -110,7 +133,7 @@ function JourneyCard({ item, index }) {
 }
 
 export default function ExperienceSection({ experiences, journey }) {
-    const [activeView, setActiveView] = useState("experience");
+    const [activeView, setActiveView] = useState("work");
     const [activeIndex, setActiveIndex] = useState(0);
     const [slideDirection, setSlideDirection] = useState(1);
     const sortedExperiences = useMemo(
@@ -125,23 +148,13 @@ export default function ExperienceSection({ experiences, journey }) {
         ),
         [journey],
     );
-    const isExperience = activeView === "experience";
-    const items = isExperience ? sortedExperiences : sortedJourney;
+    const isExperience = activeView === "work";
+    const items = isExperience
+        ? sortedExperiences
+        : sortedJourney.filter((item) => item.type === activeView);
     const activeItem = items[activeIndex];
     const hasMultipleItems = items.length > 1;
-    const view = isExperience
-        ? {
-              label: "Pekerjaan",
-              title: "Pengalaman\nKerja",
-              description:
-                  "Peran, tanggung jawab, dan kontribusi yang membentuk cara saya bekerja.",
-          }
-        : {
-              label: "Journey",
-              title: "Perjalanan\nSaya",
-              description:
-                  "Edukasi, organisasi, dan fase penting yang membentuk arah saya hari ini.",
-          };
+    const view = views[activeView] || views.work;
 
     useEffect(() => {
         setActiveIndex(0);
@@ -205,8 +218,10 @@ export default function ExperienceSection({ experiences, journey }) {
                                 onChange={(event) => setActiveView(event.target.value)}
                                 className="w-full appearance-none rounded-[9px] border border-white/[0.14] bg-[#121514] px-3 py-2.5 pr-9 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white outline-none transition hover:border-[#FF6B35]/70 focus:border-[#FF3D00] focus:bg-[#171A18] focus:ring-1 focus:ring-[#FF3D00]/35"
                             >
-                                <option value="experience">Pekerjaan</option>
-                                <option value="journey">Journey</option>
+                                <option value="work">Pekerjaan</option>
+                                <option value="education">Pendidikan</option>
+                                <option value="organization">Organisasi</option>
+                                <option value="achievement">Achievement</option>
                             </select>
                             <ChevronDown className="pointer-events-none absolute bottom-3 right-3 h-4 w-4 text-[#FF6B35]" />
                         </label>
@@ -275,7 +290,7 @@ export default function ExperienceSection({ experiences, journey }) {
                         </div>
                     ) : (
                         <div className="border-l-2 border-dashed border-[#FF3D00]/55 bg-white/[0.02] px-4 py-6 text-sm leading-6 text-white/55">
-                            Belum ada data {isExperience ? "pengalaman kerja" : "perjalanan"} yang ditampilkan.
+                            Belum ada data {view.label.toLowerCase()} yang ditampilkan.
                         </div>
                     )}
                 </div>
