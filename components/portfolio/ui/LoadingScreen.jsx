@@ -6,7 +6,10 @@ const REVEAL_DURATION = 2150;
 const DESKTOP_GRID = { columns: 58, rows: 34 };
 const MOBILE_GRID = { columns: 36, rows: 50 };
 
-export default function LoadingScreen({ onComplete, name = "Djibril Rangga Deja" }) {
+export default function LoadingScreen({
+    onComplete,
+    name = "Djibril Rangga Deja",
+}) {
     const [phase, setPhase] = useState("intro");
     const [isMobile, setIsMobile] = useState(false);
     const onCompleteRef = useRef(onComplete);
@@ -16,22 +19,20 @@ export default function LoadingScreen({ onComplete, name = "Djibril Rangga Deja"
     const tiles = useMemo(() => {
         const longestPath = grid.columns + grid.rows - 2;
 
-        return Array.from(
-            { length: grid.columns * grid.rows },
-            (_, index) => {
-                const row = Math.floor(index / grid.columns);
-                const column = index % grid.columns;
-                const diagonalDistance = grid.columns - 1 - column + row;
-                const ripple = ((row * 7 + column * 11) % 5) * 0.008;
+        return Array.from({ length: grid.columns * grid.rows }, (_, index) => {
+            const row = Math.floor(index / grid.columns);
+            const column = index % grid.columns;
+            const diagonalDistance = grid.columns - 1 - column + row;
+            const ripple = ((row * 7 + column * 11) % 5) * 0.008;
 
-                return {
-                    id: index,
-                    delay: `${(
-                        (diagonalDistance / longestPath) * 1.28 + ripple
-                    ).toFixed(3)}s`,
-                };
-            },
-        );
+            return {
+                id: index,
+                delay: `${(
+                    (diagonalDistance / longestPath) * 1.28 +
+                    ripple
+                ).toFixed(3)}s`,
+            };
+        });
     }, [grid.columns, grid.rows]);
 
     useEffect(() => {
@@ -76,7 +77,8 @@ export default function LoadingScreen({ onComplete, name = "Djibril Rangga Deja"
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.16, ease: "easeOut" }}
                     style={{
-                        backgroundColor: phase === "intro" ? "#0A0A0A" : "transparent",
+                        backgroundColor:
+                            phase === "intro" ? "#0A0A0A" : "transparent",
                     }}
                 >
                     <div
@@ -92,8 +94,11 @@ export default function LoadingScreen({ onComplete, name = "Djibril Rangga Deja"
                                 aria-hidden="true"
                                 className={[
                                     "pixel-intro-tile",
-                                    phase === "reveal" && "pixel-intro-tile--reveal",
-                                ].filter(Boolean).join(" ")}
+                                    phase === "reveal" &&
+                                        "pixel-intro-tile--reveal",
+                                ]
+                                    .filter(Boolean)
+                                    .join(" ")}
                                 style={{ "--pixel-delay": tile.delay }}
                             />
                         ))}
@@ -105,15 +110,24 @@ export default function LoadingScreen({ onComplete, name = "Djibril Rangga Deja"
                             aria-label={name}
                             className="intro-name text-center font-mono text-[clamp(1rem,3vw,1.85rem)] font-bold uppercase leading-none tracking-[0.16em]"
                             initial={{ opacity: 0, y: 10, scale: 0.985 }}
-                            animate={phase === "intro"
-                                ? { opacity: 1, y: 0, scale: 1 }
-                                : { opacity: 0, y: -8, scale: 0.98 }}
-                            transition={{ duration: 0.42, ease: [0.22, 1, 0.36, 1] }}
+                            animate={
+                                phase === "intro"
+                                    ? { opacity: 1, y: 0, scale: 1 }
+                                    : { opacity: 0, y: -8, scale: 0.98 }
+                            }
+                            transition={{
+                                duration: 0.42,
+                                ease: [0.22, 1, 0.36, 1],
+                            }}
                         >
                             {nameParts.map((part, index) => (
                                 <span
                                     key={`${part}-${index}`}
-                                    className={index % 2 === 1 ? "text-[#FF3D00]" : "text-white"}
+                                    className={
+                                        index % 2 === 1
+                                            ? "text-[#FF3D00]"
+                                            : "text-white"
+                                    }
                                 >
                                     {index > 0 && " "}
                                     {part}

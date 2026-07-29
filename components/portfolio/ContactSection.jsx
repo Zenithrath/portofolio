@@ -38,10 +38,11 @@ export default function ContactSection({ contacts, status }) {
                         Contact
                     </p>
                     <h2 className="text-2xl font-extrabold leading-tight text-white sm:text-3xl">
-                        Mari <span className="text-[#FF3D00]">Terhubung</span>
+                        Let&apos;s{" "}
+                        <span className="text-[#FF3D00]">connect</span>
                     </h2>
                     <p className="max-w-lg text-sm leading-6 text-gray-300">
-                        Silakan hubungi saya melalui platform di bawah ini.
+                        Reach out through any of the channels below.
                     </p>
                     {status && (
                         <div className="inline-flex max-w-full items-center gap-2 border border-[#FF3D00]/30 bg-[#FF3D00]/10 px-3 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-[#FF8A65]">
@@ -88,7 +89,7 @@ export default function ContactSection({ contacts, status }) {
                             Contact details
                         </p>
                         <p className="mt-2 text-sm text-gray-400">
-                            Informasi kontak akan segera tersedia.
+                            Contact details will be available soon.
                         </p>
                     </div>
                 )}

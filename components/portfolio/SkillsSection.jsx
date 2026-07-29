@@ -6,7 +6,8 @@ const categories = [
     {
         id: "tech",
         label: "Tech",
-        description: "Tools dan teknologi yang saya gunakan saat membangun produk.",
+        description:
+            "Tools dan teknologi yang saya gunakan saat membangun produk.",
         icon: Code2,
     },
     {
@@ -18,30 +19,35 @@ const categories = [
     {
         id: "soft",
         label: "Soft Skill",
-        description: "Cara saya bekerja, berkomunikasi, dan menjaga kolaborasi.",
+        description:
+            "Cara saya bekerja, berkomunikasi, dan menjaga kolaborasi.",
         icon: UsersRound,
     },
 ];
 
 export default function SkillsSection({ skills }) {
-    const groups = useMemo(() => ({
-        tech: skills?.tech || [],
-        hard: skills?.hard || [],
-        soft: skills?.soft || [],
-    }), [skills]);
+    const groups = useMemo(
+        () => ({
+            tech: skills?.tech || [],
+            hard: skills?.hard || [],
+            soft: skills?.soft || [],
+        }),
+        [skills],
+    );
     const [activeCategory, setActiveCategory] = useState("tech");
     const panelRef = useRef(null);
     const animationRef = useRef(null);
-    const activeView = categories.find((category) => category.id === activeCategory)
-        || categories[0];
+    const activeView =
+        categories.find((category) => category.id === activeCategory) ||
+        categories[0];
     const activeSkills = groups[activeView.id] || [];
 
     useEffect(() => {
         if (groups.tech.length > 0) return;
 
-        const firstAvailable = categories.find((category) => (
-            groups[category.id]?.length > 0
-        ));
+        const firstAvailable = categories.find(
+            (category) => groups[category.id]?.length > 0,
+        );
         if (firstAvailable) setActiveCategory(firstAvailable.id);
     }, [groups]);
 
@@ -74,11 +80,11 @@ export default function SkillsSection({ skills }) {
                 <div className="grid gap-5 border-b border-white/[0.12] pb-6 lg:grid-cols-[minmax(0,0.72fr)_minmax(11rem,0.28fr)] lg:items-end lg:gap-10">
                     <div className="gsap-reveal max-w-2xl lg:pl-[12%]">
                         <h2 className="font-['Syne'] text-[1.7rem] font-extrabold leading-[1.08] text-[#F1F3EF] sm:text-4xl">
-                            Hal yang saya bawa ke setiap project.
+                            What I bring to every project.
                         </h2>
                         <p className="mt-3 max-w-2xl text-sm leading-6 text-white/58 sm:text-base">
-                            Keahlian dikelompokkan agar lebih mudah dibaca dalam konteks
-                            teknis maupun kolaborasi.
+                            Skills are organised to make my strengths easier to
+                            explore across technical and collaborative work.
                         </p>
                     </div>
                     <div className="gsap-reveal flex items-start gap-3 lg:flex-col lg:items-end lg:gap-5 lg:border-r lg:border-white/[0.14] lg:pr-8">
@@ -114,7 +120,9 @@ export default function SkillsSection({ skills }) {
                                     role="tab"
                                     aria-selected={active}
                                     aria-controls={`skill-panel-${category.id}`}
-                                    onClick={() => setActiveCategory(category.id)}
+                                    onClick={() =>
+                                        setActiveCategory(category.id)
+                                    }
                                     className={[
                                         "flex min-h-10 items-center justify-center gap-1.5 border-r border-white/[0.10] px-2 text-[10px] font-semibold transition duration-200 last:border-r-0 sm:min-h-14 sm:gap-2 sm:text-sm",
                                         active
@@ -123,7 +131,9 @@ export default function SkillsSection({ skills }) {
                                     ].join(" ")}
                                 >
                                     <Icon className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-                                    <span className="truncate">{category.label}</span>
+                                    <span className="truncate">
+                                        {category.label}
+                                    </span>
                                 </button>
                             );
                         })}
@@ -135,7 +145,8 @@ export default function SkillsSection({ skills }) {
                                 {activeView.label}
                             </p>
                             <h3 className="mt-2 font-['Syne'] text-lg font-bold text-white sm:mt-3 sm:text-xl">
-                                {String(activeSkills.length).padStart(2, "0")} kemampuan
+                                {String(activeSkills.length).padStart(2, "0")}{" "}
+                                skills
                             </h3>
                             <p className="mt-2 text-[13px] leading-5 text-white/55 sm:text-sm sm:leading-6">
                                 {activeView.description}
@@ -150,31 +161,39 @@ export default function SkillsSection({ skills }) {
                             {activeSkills.length > 0 ? (
                                 <div className="grid min-w-0 grid-cols-2 gap-2 sm:gap-3">
                                     {activeSkills.map((skill, index) => {
-                                        const proficiency = skill.proficiency ?? skill.level;
+                                        const proficiency =
+                                            skill.proficiency ?? skill.level;
 
                                         return (
                                             <div
-                                                key={skill.id || `${activeView.id}-${index}`}
+                                                key={
+                                                    skill.id ||
+                                                    `${activeView.id}-${index}`
+                                                }
                                                 className={[
                                                     "flex min-h-12 min-w-0 items-center justify-between gap-2 rounded-[9px] border border-white/[0.12] bg-[#151817] px-3 transition duration-200 hover:border-[#FF3D00]/45 sm:min-h-14 sm:gap-3 sm:px-4",
-                                                    index % 2 === 1 ? "sm:translate-x-3" : "",
+                                                    index % 2 === 1
+                                                        ? "sm:translate-x-3"
+                                                        : "",
                                                 ].join(" ")}
                                             >
                                                 <span className="min-w-0 truncate text-[12px] font-semibold text-white sm:text-sm">
                                                     {skill.name}
                                                 </span>
-                                                {proficiency !== null && proficiency !== undefined && (
-                                                    <span className="font-mono text-[10px] text-white/45">
-                                                        {proficiency}%
-                                                    </span>
-                                                )}
+                                                {proficiency !== null &&
+                                                    proficiency !==
+                                                        undefined && (
+                                                        <span className="font-mono text-[10px] text-white/45">
+                                                            {proficiency}%
+                                                        </span>
+                                                    )}
                                             </div>
                                         );
                                     })}
                                 </div>
                             ) : (
                                 <div className="border-l-2 border-dashed border-[#FF3D00]/55 bg-white/[0.02] px-4 py-7 text-sm text-white/50">
-                                    Belum ada skill pada kategori ini.
+                                    No skills in this category yet.
                                 </div>
                             )}
                         </div>

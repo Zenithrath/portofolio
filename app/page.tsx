@@ -7,23 +7,25 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
-  const { personal } = await getPortfolioData();
-  const title = personal?.name ? `${personal.name} | Portfolio` : "Portfolio";
-  const description = personal?.bio || "Portfolio modern yang memuat profil, karya, kemampuan, dan pengalaman.";
+    const { personal } = await getPortfolioData();
+    const title = personal?.name ? `${personal.name} | Portfolio` : "Portfolio";
+    const description =
+        personal?.bio ||
+        "A portfolio featuring profile, selected work, skills, and experience.";
 
-  return {
-    title,
-    description,
-    openGraph: {
-      title,
-      description,
-      type: "website",
-      images: personal?.photo_url ? [personal.photo_url] : [],
-    },
-  };
+    return {
+        title,
+        description,
+        openGraph: {
+            title,
+            description,
+            type: "website",
+            images: personal?.photo_url ? [personal.photo_url] : [],
+        },
+    };
 }
 
 export default async function Home() {
-  const data = await getPortfolioData();
-  return <PortfolioClient {...data} />;
+    const data = await getPortfolioData();
+    return <PortfolioClient {...data} />;
 }

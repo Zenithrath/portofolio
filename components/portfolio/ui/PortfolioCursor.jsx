@@ -83,11 +83,21 @@ export default function PortfolioCursor() {
         };
 
         window.addEventListener("pointermove", handleMove, { passive: true });
-        document.addEventListener("pointerover", handlePointerOver, { passive: true });
-        document.addEventListener("pointerdown", handlePointerDown, { passive: true });
-        document.addEventListener("pointerup", handlePointerUp, { passive: true });
-        document.addEventListener("mouseout", handleMouseOut, { passive: true });
-        document.addEventListener("touchstart", deactivateCursor, { passive: true });
+        document.addEventListener("pointerover", handlePointerOver, {
+            passive: true,
+        });
+        document.addEventListener("pointerdown", handlePointerDown, {
+            passive: true,
+        });
+        document.addEventListener("pointerup", handlePointerUp, {
+            passive: true,
+        });
+        document.addEventListener("mouseout", handleMouseOut, {
+            passive: true,
+        });
+        document.addEventListener("touchstart", deactivateCursor, {
+            passive: true,
+        });
         window.addEventListener("blur", deactivateCursor);
 
         return () => {

@@ -29,7 +29,9 @@ export default function GsapScrollAnimations() {
                 );
             });
 
-            const staggerGroups = document.querySelectorAll(".gsap-stagger-group");
+            const staggerGroups = document.querySelectorAll(
+                ".gsap-stagger-group",
+            );
             staggerGroups.forEach((group) => {
                 const children = group.querySelectorAll(".gsap-stagger-item");
                 if (!children.length) return;

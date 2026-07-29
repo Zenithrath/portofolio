@@ -3,7 +3,7 @@ import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { gsap } from "./utils/gsapSetup";
 
 function ProjectPreview({ project, number }) {
-    const title = project.title || "Project tanpa judul";
+    const title = project.title || "Untitled project";
     const category = project.category || "Project";
 
     if (project.thumbnail_url) {
@@ -39,22 +39,26 @@ function ProjectPreview({ project, number }) {
 }
 
 export default function ProjectsSection({ projects, onSelectProject }) {
-    const [activeFilter, setActiveFilter] = useState("Semua");
+    const [activeFilter, setActiveFilter] = useState("All");
     const gridRef = useRef(null);
     const animationRef = useRef(null);
     const list = projects || [];
     const categories = Array.from(
         new Set(list.map((project) => project.category).filter(Boolean)),
     );
-    const filters = ["Semua", ...categories];
-    const filteredProjects = list.filter((project) => (
-        activeFilter === "Semua" || project.category === activeFilter
-    ));
+    const filters = ["All", ...categories];
+    const filteredProjects = list.filter(
+        (project) =>
+            activeFilter === "All" || project.category === activeFilter,
+    );
 
     const moveCarousel = (direction) => {
         const track = gridRef.current;
         if (!track) return;
-        track.scrollBy({ left: direction * Math.max(track.clientWidth * 0.72, 280), behavior: "smooth" });
+        track.scrollBy({
+            left: direction * Math.max(track.clientWidth * 0.72, 280),
+            behavior: "smooth",
+        });
     };
 
     useEffect(() => {
@@ -106,70 +110,115 @@ export default function ProjectsSection({ projects, onSelectProject }) {
                     </div>
                     <div className="gsap-reveal border-l border-white/[0.14] pl-5 sm:pl-6 lg:pb-1 lg:pl-8">
                         <h2 className="font-['Syne'] text-[1.7rem] font-extrabold leading-[1.08] text-[#F1F3EF] sm:text-4xl">
-                            Karya yang saya bangun.
+                            Selected work.
                         </h2>
                         <p className="mt-3 max-w-2xl text-sm leading-6 text-white/58 sm:text-base">
-                            Proyek dari proses belajar, kerja tim, dan eksplorasi produk
-                            digital yang saya kerjakan dengan serius.
+                            Proyek dari proses belajar, kerja tim, dan
+                            eksplorasi produk digital yang saya kerjakan dengan
+                            serius.
                         </p>
                     </div>
                 </div>
 
                 {filters.length > 1 && (
                     <div className="mt-3 flex flex-wrap items-center gap-2 lg:ml-[24%]">
-                    <div className="flex flex-1 flex-wrap gap-2" role="tablist" aria-label="Kategori project">
-                        {filters.map((filter) => {
-                            const active = activeFilter === filter;
+                        <div
+                            className="flex flex-1 flex-wrap gap-2"
+                            role="tablist"
+                            aria-label="Kategori project"
+                        >
+                            {filters.map((filter) => {
+                                const active = activeFilter === filter;
 
-                            return (
+                                return (
+                                    <button
+                                        key={filter}
+                                        type="button"
+                                        onClick={() => setActiveFilter(filter)}
+                                        aria-pressed={active}
+                                        className={[
+                                            "min-h-9 rounded-lg border px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] transition duration-200",
+                                            active
+                                                ? "border-[#FF3D00] bg-[#FF3D00] text-white"
+                                                : "border-white/[0.14] bg-[#121514] text-white/65 hover:border-white/[0.32] hover:text-white",
+                                        ].join(" ")}
+                                    >
+                                        {filter}
+                                    </button>
+                                );
+                            })}
+                        </div>
+                        {filteredProjects.length > 1 && (
+                            <div className="ml-auto flex items-center gap-2">
                                 <button
-                                    key={filter}
                                     type="button"
-                                    onClick={() => setActiveFilter(filter)}
-                                    aria-pressed={active}
-                                    className={[
-                                        "min-h-9 rounded-lg border px-3 font-mono text-[10px] font-bold uppercase tracking-[0.12em] transition duration-200",
-                                        active
-                                            ? "border-[#FF3D00] bg-[#FF3D00] text-white"
-                                            : "border-white/[0.14] bg-[#121514] text-white/65 hover:border-white/[0.32] hover:text-white",
-                                    ].join(" ")}
+                                    onClick={() => moveCarousel(-1)}
+                                    title="Project sebelumnya"
+                                    aria-label="Project sebelumnya"
+                                    className="inline-flex h-9 w-9 items-center justify-center rounded-[9px] border border-white/[0.14] text-white transition hover:border-[#FF3D00]/70 hover:bg-[#FF3D00]"
                                 >
-                                    {filter}
+                                    <ChevronLeft className="h-4 w-4" />
                                 </button>
-                            );
-                        })}
-                    </div>
-                    {filteredProjects.length > 1 && <div className="ml-auto flex items-center gap-2"><button type="button" onClick={() => moveCarousel(-1)} title="Project sebelumnya" aria-label="Project sebelumnya" className="inline-flex h-9 w-9 items-center justify-center rounded-[9px] border border-white/[0.14] text-white transition hover:border-[#FF3D00]/70 hover:bg-[#FF3D00]"><ChevronLeft className="h-4 w-4" /></button><button type="button" onClick={() => moveCarousel(1)} title="Project berikutnya" aria-label="Project berikutnya" className="inline-flex h-9 w-9 items-center justify-center rounded-[9px] border border-white/[0.14] text-white transition hover:border-[#FF3D00]/70 hover:bg-[#FF3D00]"><ChevronRight className="h-4 w-4" /></button></div>}
+                                <button
+                                    type="button"
+                                    onClick={() => moveCarousel(1)}
+                                    title="Project berikutnya"
+                                    aria-label="Project berikutnya"
+                                    className="inline-flex h-9 w-9 items-center justify-center rounded-[9px] border border-white/[0.14] text-white transition hover:border-[#FF3D00]/70 hover:bg-[#FF3D00]"
+                                >
+                                    <ChevronRight className="h-4 w-4" />
+                                </button>
+                            </div>
+                        )}
                     </div>
                 )}
 
                 {filteredProjects.length > 0 ? (
-                    <div ref={gridRef} className="mt-5 flex gap-3 overflow-x-auto pb-2 pr-4 scrollbar-hide snap-x snap-mandatory sm:gap-4 lg:ml-[12%] lg:gap-5">
+                    <div
+                        ref={gridRef}
+                        className="mt-5 flex gap-3 overflow-x-auto pb-2 pr-4 scrollbar-hide snap-x snap-mandatory sm:gap-4 lg:ml-[12%] lg:gap-5"
+                    >
                         {filteredProjects.map((project, index) => {
-                            const tags = Array.isArray(project.tags) ? project.tags : [];
+                            const tags = Array.isArray(project.tags)
+                                ? project.tags
+                                : [];
 
                             return (
                                 <div
-                                    key={project.id || `${project.title}-${index}`}
+                                    key={
+                                        project.id ||
+                                        `${project.title}-${index}`
+                                    }
                                     className="project-card-slot w-[82vw] shrink-0 snap-start sm:w-[34rem] lg:w-[42rem]"
                                 >
                                     <button
                                         type="button"
-                                        onClick={() => onSelectProject?.(project)}
+                                        onClick={() =>
+                                            onSelectProject?.(project)
+                                        }
                                         className="project-card card-grid-hover group flex h-full min-h-[176px] w-full flex-row overflow-hidden rounded-[10px] border border-white/[0.14] bg-[#121514] text-left transition duration-300 hover:-translate-y-0.5 hover:border-[#FF3D00]/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF6B35] sm:min-h-[206px] lg:min-h-[228px]"
                                     >
                                         <ProjectPreview
                                             project={project}
-                                            number={String(index + 1).padStart(2, "0")}
+                                            number={String(index + 1).padStart(
+                                                2,
+                                                "0",
+                                            )}
                                         />
                                         <div className="flex min-w-0 flex-1 flex-col p-3.5 sm:p-5">
                                             <div className="flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[10px] font-bold uppercase tracking-[0.12em] text-white/45">
-                                                <span>{project.category || "Project"}</span>
+                                                <span>
+                                                    {project.category ||
+                                                        "Project"}
+                                                </span>
                                                 <span className="h-1 w-1 rounded-full bg-[#FF3D00]" />
-                                                <span>{project.year || "Ongoing"}</span>
+                                                <span>
+                                                    {project.year || "Ongoing"}
+                                                </span>
                                             </div>
                                             <h3 className="mt-2 line-clamp-2 font-['Syne'] text-[0.98rem] font-bold leading-tight text-white transition group-hover:text-[#FF8A65] sm:text-xl">
-                                                {project.title || "Project tanpa judul"}
+                                                {project.title ||
+                                                    "Untitled project"}
                                             </h3>
                                             {project.description && (
                                                 <p className="mt-2 line-clamp-2 text-sm leading-5 text-white/60">
@@ -179,19 +228,26 @@ export default function ProjectsSection({ projects, onSelectProject }) {
 
                                             {tags.length > 0 && (
                                                 <div className="mt-3 flex flex-wrap gap-2">
-                                                    {tags.slice(0, 2).map((tag, tagIndex) => (
-                                                        <span
-                                                            key={tag.id || `${tag.tag}-${tagIndex}`}
-                                                            className="rounded-lg border border-white/[0.12] bg-white/[0.03] px-2.5 py-1 font-mono text-[10px] text-white/70"
-                                                        >
-                                                            {tag.tag}
-                                                        </span>
-                                                    ))}
+                                                    {tags
+                                                        .slice(0, 2)
+                                                        .map(
+                                                            (tag, tagIndex) => (
+                                                                <span
+                                                                    key={
+                                                                        tag.id ||
+                                                                        `${tag.tag}-${tagIndex}`
+                                                                    }
+                                                                    className="rounded-lg border border-white/[0.12] bg-white/[0.03] px-2.5 py-1 font-mono text-[10px] text-white/70"
+                                                                >
+                                                                    {tag.tag}
+                                                                </span>
+                                                            ),
+                                                        )}
                                                 </div>
                                             )}
 
                                             <span className="mt-3 inline-flex items-center gap-2 border-t border-white/[0.10] pt-3 text-sm font-semibold text-white">
-                                                Lihat detail
+                                                View details
                                                 <ArrowUpRight className="h-4 w-4 text-[#FF6B35]" />
                                             </span>
                                         </div>
@@ -202,7 +258,7 @@ export default function ProjectsSection({ projects, onSelectProject }) {
                     </div>
                 ) : (
                     <div className="mt-6 border-l-2 border-dashed border-[#FF3D00]/55 bg-white/[0.02] px-5 py-6 text-sm text-white/55 lg:ml-[24%]">
-                        Tidak ada project pada kategori ini.
+                        No projects in this category yet.
                     </div>
                 )}
             </div>

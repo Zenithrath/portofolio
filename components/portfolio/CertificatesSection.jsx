@@ -34,31 +34,39 @@ export default function CertificatesSection({
 
                     <div className="gsap-reveal border-l border-white/[0.14] pl-5 sm:pl-6 lg:pb-1 lg:pl-8">
                         <h2 className="text-[1.7rem] font-extrabold leading-[1.02] tracking-tight text-white sm:text-4xl">
-                            Sertifikasi
+                            Certificates
                             <br />
-                            <span className="text-[#FF3D00]">& Lisensi</span>
+                            <span className="text-[#FF3D00]">& Licences</span>
                         </h2>
                         <p className="mt-3 max-w-2xl text-sm leading-7 text-gray-400">
-                            Rekam jejak belajar dari kelas, pelatihan, dan sertifikasi
-                            yang memperluas cara saya melihat pekerjaan teknis.
+                            A record of learning through coursework, training,
+                            and certifications that continues to broaden my
+                            technical perspective.
                         </p>
 
                         {list.length > 0 && (
                             <div className="mt-4 grid max-w-2xl gap-2 sm:mt-5 sm:grid-cols-3 sm:gap-3">
                                 {[
                                     {
-                                        value: String(list.length || 0).padStart(2, "0"),
+                                        value: String(
+                                            list.length || 0,
+                                        ).padStart(2, "0"),
                                         label: "Total",
                                     },
                                     {
                                         value: String(
-                                            new Set(list.map((c) => c.issuer).filter(Boolean)).size || 0,
+                                            new Set(
+                                                list
+                                                    .map((c) => c.issuer)
+                                                    .filter(Boolean),
+                                            ).size || 0,
                                         ).padStart(2, "0"),
-                                        label: "Penerbit",
+                                        label: "Issuers",
                                     },
                                     {
                                         value: String(
-                                            list.filter((c) => c.credential_url).length || 0,
+                                            list.filter((c) => c.credential_url)
+                                                .length || 0,
                                         ).padStart(2, "0"),
                                         label: "Verified",
                                     },
@@ -67,7 +75,9 @@ export default function CertificatesSection({
                                         key={label}
                                         className={[
                                             "cert-stat border border-white/[0.08] bg-white/[0.025] px-3 py-2.5 text-left transition duration-300 hover:-translate-y-0.5 hover:border-white/[0.15] sm:px-5 sm:py-4",
-                                            index === 1 ? "sm:translate-y-3" : "",
+                                            index === 1
+                                                ? "sm:translate-y-3"
+                                                : "",
                                         ].join(" ")}
                                     >
                                         <div className="mb-3 h-px w-10 bg-[#FF3D00]/70" />
@@ -90,7 +100,9 @@ export default function CertificatesSection({
                         onSelect={
                             list.length > 0
                                 ? (item) => {
-                                      const original = list.find((cert) => cert.id === item.id);
+                                      const original = list.find(
+                                          (cert) => cert.id === item.id,
+                                      );
                                       if (original && onSelectCertificate) {
                                           onSelectCertificate(original);
                                       }

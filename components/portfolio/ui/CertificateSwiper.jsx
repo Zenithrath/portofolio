@@ -5,7 +5,7 @@ export default function CertificateSwiper({ certificates = [], onSelect }) {
     if (!certificates.length) {
         return (
             <div className="border-l-2 border-dashed border-[#FF3D00]/55 bg-white/[0.02] px-5 py-6 text-sm text-white/55">
-                Sertifikat belum tersedia.
+                Certificates will appear here soon.
             </div>
         );
     }
@@ -35,17 +35,19 @@ export default function CertificateSwiper({ certificates = [], onSelect }) {
                     </div>
 
                     <h3 className="mt-4 line-clamp-2 font-['Syne'] text-[1.05rem] font-bold leading-tight text-white transition group-hover:text-[#FF8A65] sm:mt-5 sm:text-lg">
-                        {certificate.title || "Sertifikat tanpa judul"}
+                        {certificate.title || "Untitled certificate"}
                     </h3>
                     <p className="mt-2 line-clamp-2 text-sm leading-6 text-white/55">
-                        {certificate.issuer || "Penerbit belum diatur"}
+                        {certificate.issuer || "Issuer not specified"}
                     </p>
 
                     <div className="mt-auto flex flex-wrap items-center gap-2 border-t border-white/[0.10] pt-3 font-mono text-[10px] text-white/45 sm:pt-4">
                         {certificate.credential_id && (
                             <span className="inline-flex min-w-0 items-center gap-1.5 truncate">
                                 <IdCard className="h-3.5 w-3.5 shrink-0 text-[#FF6B35]" />
-                                <span className="truncate">{certificate.credential_id}</span>
+                                <span className="truncate">
+                                    {certificate.credential_id}
+                                </span>
                             </span>
                         )}
                         {!certificate.credential_id && certificate.year && (
@@ -55,7 +57,7 @@ export default function CertificateSwiper({ certificates = [], onSelect }) {
                             </span>
                         )}
                         <span className="ml-auto inline-flex items-center gap-1.5 text-white/70">
-                            Detail
+                            View details
                             <ExternalLink className="h-3.5 w-3.5 text-[#FF6B35]" />
                         </span>
                     </div>
