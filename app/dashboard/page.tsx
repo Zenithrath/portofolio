@@ -6,8 +6,6 @@ import { createSupabaseServerClient } from "@/lib/supabase/server";
 
 export const dynamic = "force-dynamic";
 
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-
 export default async function DashboardPage() {
   const supabase = await createSupabaseServerClient();
   if (!supabase) return <AccessDenied detail="Supabase belum dikonfigurasi." />;
@@ -15,8 +13,14 @@ export default async function DashboardPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/auth/login?next=/dashboard");
 
-  if (!ADMIN_EMAIL || user.email !== ADMIN_EMAIL) {
-    return <AccessDenied userId={user.id} detail="Akun ini bukan admin." />;
+  const { data: admin, error: adminError } = await supabase
+    .from("admin_users")
+    .select("user_id")
+    .eq("user_id", user.id)
+    .maybeSingle();
+
+  if (adminError || !admin) {
+    return <AccessDenied userId={user.id} detail={adminError?.message || "Akun ini belum terdaftar di public.admin_users."} />;
   }
 
   const data = await getDashboardData();

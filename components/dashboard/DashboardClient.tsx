@@ -19,6 +19,14 @@ import CvPanel from "./CvPanel";
 
 type Notice = { type: "success" | "error" | "warning"; message: string } | null;
 
+function formatMutationError(cause: unknown) {
+  const message = cause instanceof Error ? cause.message : "Perubahan tidak dapat disimpan.";
+  if (/row-level security|permission denied|42501/i.test(message)) {
+    return "Supabase menolak perubahan karena akses admin database belum aktif. Tambahkan UUID akun ini ke public.admin_users lalu muat ulang dashboard.";
+  }
+  return message;
+}
+
 export default function DashboardClient({ data, email }: { data: DashboardData; email: string }) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<DashboardTab>("personal");
@@ -40,7 +48,7 @@ export default function DashboardClient({ data, email }: { data: DashboardData; 
       router.refresh();
       setNotice({ type: refreshed ? "success" : "warning", message: refreshed ? successMessage : `${successMessage} Cache publik akan terbarui dalam waktu singkat.` });
     } catch (cause) {
-      setNotice({ type: "error", message: cause instanceof Error ? cause.message : "Perubahan tidak dapat disimpan." });
+      setNotice({ type: "error", message: formatMutationError(cause) });
     } finally {
       setPending(false);
     }
