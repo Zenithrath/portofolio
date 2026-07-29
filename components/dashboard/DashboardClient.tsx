@@ -22,7 +22,7 @@ type Notice = { type: "success" | "error" | "warning"; message: string } | null;
 function formatMutationError(cause: unknown) {
   const message = cause instanceof Error ? cause.message : "Perubahan tidak dapat disimpan.";
   if (/row-level security|permission denied|42501/i.test(message)) {
-    return "Supabase menolak perubahan karena akses admin database belum aktif. Tambahkan UUID akun ini ke public.admin_users lalu muat ulang dashboard.";
+    return "Supabase menolak perubahan. Pastikan kamu masih login dan jalankan policy Auth-only di supabase/next-portfolio-security.sql.";
   }
   return message;
 }
