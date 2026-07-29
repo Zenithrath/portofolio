@@ -16,6 +16,7 @@ import ExperienceSection from "./ExperienceSection";
 import QuoteSection from "./QuoteSection";
 import ContactSection from "./ContactSection";
 import FooterSection from "./FooterSection";
+import PortfolioAssistant from "./PortfolioAssistant";
 
 type Props = PortfolioData;
 
@@ -100,6 +101,7 @@ export default function PortfolioClient({
     <div className="min-h-screen overflow-x-hidden bg-[#0B0D0C] text-[#F1F3EF] selection:bg-[#FF3D00] selection:text-white">
       <LoadingScreen name={personal?.name || "Djibril Rangga Deja"} onComplete={() => setLoaded(true)} />
       <PortfolioCursor />
+      <PortfolioAssistant />
       <Navbar personal={personal} visibleSections={visibleSections} />
       <GsapScrollAnimations />
 
