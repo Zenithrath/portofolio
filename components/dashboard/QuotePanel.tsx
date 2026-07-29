@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { Save } from "lucide-react";
 import type { Personal } from "@/types/portfolio";
-import { getSupabaseOrThrow, throwIfError, type MutationRunner } from "./admin-utils";
+import { getSupabaseOrThrow, requireAffectedRows, type MutationRunner } from "./admin-utils";
 import { EmptyState, InputLabel, PanelFrame, PrimaryButton, textareaClass } from "./PanelFrame";
 
 export default function QuotePanel({ personal, mutate, pending }: { personal: Personal | null; mutate: MutationRunner; pending: boolean }) {
@@ -14,8 +14,8 @@ export default function QuotePanel({ personal, mutate, pending }: { personal: Pe
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     await mutate(async () => {
-      const result = await getSupabaseOrThrow().from("personals").update({ quote }).eq("id", currentPersonal.id);
-      throwIfError(result);
+      const result = await getSupabaseOrThrow().from("personals").update({ quote }).eq("id", currentPersonal.id).select("id");
+      requireAffectedRows(result);
     }, "Quote berhasil diperbarui.");
   }
 

@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { Save } from "lucide-react";
 import type { Personal } from "@/types/portfolio";
-import { getSupabaseOrThrow, throwIfError, uploadPortfolioFile, type MutationRunner } from "./admin-utils";
+import { getSupabaseOrThrow, requireAffectedRows, uploadPortfolioFile, type MutationRunner } from "./admin-utils";
 import { InputLabel, PanelFrame, PrimaryButton, inputClass, textareaClass } from "./PanelFrame";
 
 type PersonalForm = {
@@ -32,8 +32,8 @@ export default function PersonalPanel({ personal, mutate, pending }: { personal:
       let photoPath = personal?.photo ?? null;
       if (photo) photoPath = await uploadPortfolioFile(photo, "profile", personal?.photo, 2 * 1024 * 1024);
       const payload = { ...form, photo: photoPath };
-      const result = personal ? await supabase.from("personals").update(payload).eq("id", personal.id) : await supabase.from("personals").insert(payload);
-      throwIfError(result);
+      const result = personal ? await supabase.from("personals").update(payload).eq("id", personal.id).select("id") : await supabase.from("personals").insert(payload).select("id");
+      requireAffectedRows(result);
       setPhoto(null);
     }, "Profil berhasil diperbarui.");
   }

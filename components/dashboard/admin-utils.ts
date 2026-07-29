@@ -17,6 +17,21 @@ export function throwIfError(result: { error: { message: string } | null }) {
   if (result.error) throw new Error(result.error.message);
 }
 
+export async function requireDashboardSession() {
+  const supabase = getSupabaseOrThrow();
+  const { data, error } = await supabase.auth.getSession();
+  if (error) throw new Error(error.message);
+  if (!data.session) throw new Error("Sesi login telah berakhir. Masuk kembali untuk menyimpan perubahan.");
+  return supabase;
+}
+
+export function requireAffectedRows(result: { error: { message: string } | null; data: unknown }) {
+  throwIfError(result);
+  if (Array.isArray(result.data) && result.data.length === 0) {
+    throw new Error("Tidak ada data yang berubah. Session atau policy Supabase belum memberi izin tulis.");
+  }
+}
+
 export function asNullable(value: string | null | undefined) {
   const trimmed = value?.trim();
   return trimmed ? trimmed : null;

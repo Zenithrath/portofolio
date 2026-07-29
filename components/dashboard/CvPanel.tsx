@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { Download, FileUp } from "lucide-react";
 import type { Personal } from "@/types/portfolio";
-import { getSupabaseOrThrow, throwIfError, uploadPortfolioFile, type MutationRunner } from "./admin-utils";
+import { getSupabaseOrThrow, requireAffectedRows, uploadPortfolioFile, type MutationRunner } from "./admin-utils";
 import { EmptyState, InputLabel, PanelFrame, PrimaryButton } from "./PanelFrame";
 
 export default function CvPanel({ personal, mutate, pending }: { personal: Personal | null; mutate: MutationRunner; pending: boolean }) {
@@ -16,8 +16,8 @@ export default function CvPanel({ personal, mutate, pending }: { personal: Perso
     if (!file) return;
     await mutate(async () => {
       const path = await uploadPortfolioFile(file, "cv", currentPersonal.cv_file, 10 * 1024 * 1024);
-      const result = await getSupabaseOrThrow().from("personals").update({ cv_file: path }).eq("id", currentPersonal.id);
-      throwIfError(result);
+      const result = await getSupabaseOrThrow().from("personals").update({ cv_file: path }).eq("id", currentPersonal.id).select("id");
+      requireAffectedRows(result);
       setFile(null);
     }, "CV berhasil diunggah.");
   }

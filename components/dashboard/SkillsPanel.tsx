@@ -3,7 +3,7 @@
 import { FormEvent, useState } from "react";
 import { Pencil, Plus, Save, Trash2, X } from "lucide-react";
 import type { Skill, SkillCategory } from "@/types/portfolio";
-import { asNumber, getSupabaseOrThrow, throwIfError, type MutationRunner } from "./admin-utils";
+import { asNumber, getSupabaseOrThrow, requireAffectedRows, type MutationRunner } from "./admin-utils";
 import { EmptyState, InputLabel, PanelFrame, PrimaryButton, SecondaryButton, Toggle, inputClass, selectClass } from "./PanelFrame";
 
 type SkillForm = { name: string; category: SkillCategory; icon: string; proficiency: string; sort_order: string; is_visible: boolean };
@@ -20,15 +20,15 @@ export default function SkillsPanel({ skills, mutate, pending }: { skills: Skill
     event.preventDefault();
     await mutate(async () => {
       const payload = { name: form.name.trim(), category: form.category, icon: form.icon.trim() || null, proficiency: form.proficiency === "" ? null : asNumber(form.proficiency), sort_order: asNumber(form.sort_order), is_visible: form.is_visible };
-      const query = editingId ? getSupabaseOrThrow().from("skills").update(payload).eq("id", editingId) : getSupabaseOrThrow().from("skills").insert(payload);
-      throwIfError(await query);
+      const query = editingId ? getSupabaseOrThrow().from("skills").update(payload).eq("id", editingId).select("id") : getSupabaseOrThrow().from("skills").insert(payload).select("id");
+      requireAffectedRows(await query);
       reset();
     }, editingId ? "Skill berhasil diperbarui." : "Skill berhasil ditambahkan.");
   }
 
   async function remove(skill: Skill) {
     if (!window.confirm(`Hapus skill ${skill.name}?`)) return;
-    await mutate(async () => throwIfError(await getSupabaseOrThrow().from("skills").delete().eq("id", skill.id)), "Skill berhasil dihapus.");
+    await mutate(async () => requireAffectedRows(await getSupabaseOrThrow().from("skills").delete().eq("id", skill.id).select("id")), "Skill berhasil dihapus.");
   }
 
   return <PanelFrame eyebrow="02 / capabilities" title="Keahlian" description="Kelompokkan kemampuan sebagai tech, hard, atau soft skill. Urutan kecil tampil lebih dahulu.">

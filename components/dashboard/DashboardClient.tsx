@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { AlertTriangle, CheckCircle2, X } from "lucide-react";
 import type { DashboardData } from "@/types/portfolio";
-import { refreshPublicPortfolio, type MutationRunner } from "./admin-utils";
+import { refreshPublicPortfolio, requireDashboardSession, type MutationRunner } from "./admin-utils";
 import Sidebar, { type DashboardTab } from "./Sidebar";
 import PersonalPanel from "./PersonalPanel";
 import SkillsPanel from "./SkillsPanel";
@@ -38,6 +38,7 @@ export default function DashboardClient({ data, email }: { data: DashboardData; 
     setPending(true);
     setNotice(null);
     try {
+      await requireDashboardSession();
       await task();
       let refreshed = true;
       try {
