@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { gsap } from "./utils/gsapSetup";
 
 function ProjectPreview({ project, number }) {
@@ -50,6 +50,12 @@ export default function ProjectsSection({ projects, onSelectProject }) {
     const filteredProjects = list.filter((project) => (
         activeFilter === "Semua" || project.category === activeFilter
     ));
+
+    const moveCarousel = (direction) => {
+        const track = gridRef.current;
+        if (!track) return;
+        track.scrollBy({ left: direction * Math.max(track.clientWidth * 0.72, 280), behavior: "smooth" });
+    };
 
     useEffect(() => {
         const grid = gridRef.current;
@@ -110,11 +116,8 @@ export default function ProjectsSection({ projects, onSelectProject }) {
                 </div>
 
                 {filters.length > 1 && (
-                    <div
-                        className="mt-3 flex flex-wrap gap-2 lg:ml-[24%]"
-                        role="tablist"
-                        aria-label="Kategori project"
-                    >
+                    <div className="mt-3 flex flex-wrap items-center gap-2 lg:ml-[24%]">
+                    <div className="flex flex-1 flex-wrap gap-2" role="tablist" aria-label="Kategori project">
                         {filters.map((filter) => {
                             const active = activeFilter === filter;
 
@@ -136,31 +139,24 @@ export default function ProjectsSection({ projects, onSelectProject }) {
                             );
                         })}
                     </div>
+                    {filteredProjects.length > 1 && <div className="ml-auto flex items-center gap-2"><button type="button" onClick={() => moveCarousel(-1)} title="Project sebelumnya" aria-label="Project sebelumnya" className="inline-flex h-9 w-9 items-center justify-center rounded-[9px] border border-white/[0.14] text-white transition hover:border-[#FF3D00]/70 hover:bg-[#FF3D00]"><ChevronLeft className="h-4 w-4" /></button><button type="button" onClick={() => moveCarousel(1)} title="Project berikutnya" aria-label="Project berikutnya" className="inline-flex h-9 w-9 items-center justify-center rounded-[9px] border border-white/[0.14] text-white transition hover:border-[#FF3D00]/70 hover:bg-[#FF3D00]"><ChevronRight className="h-4 w-4" /></button></div>}
+                    </div>
                 )}
 
                 {filteredProjects.length > 0 ? (
-                    <div ref={gridRef} className="mt-5 flex gap-3 overflow-x-auto pb-2 pr-4 scrollbar-hide snap-x snap-mandatory sm:gap-4 md:grid md:grid-cols-2 md:overflow-visible md:pb-0 md:pr-0 lg:ml-[12%] lg:grid-cols-12 lg:gap-5">
+                    <div ref={gridRef} className="mt-5 flex gap-3 overflow-x-auto pb-2 pr-4 scrollbar-hide snap-x snap-mandatory sm:gap-4 lg:ml-[12%] lg:gap-5">
                         {filteredProjects.map((project, index) => {
                             const tags = Array.isArray(project.tags) ? project.tags : [];
 
                             return (
                                 <div
                                     key={project.id || `${project.title}-${index}`}
-                                    className={[
-                                        "project-card-slot w-[82vw] shrink-0 snap-start md:w-auto",
-                                        index % 4 === 0
-                                            ? "lg:col-span-7"
-                                            : index % 4 === 1
-                                                ? "lg:col-span-5 lg:mt-8"
-                                                : index % 4 === 2
-                                                    ? "lg:col-span-5"
-                                                    : "lg:col-span-7 lg:-mt-3",
-                                    ].join(" ")}
+                                    className="project-card-slot w-[82vw] shrink-0 snap-start sm:w-[34rem] lg:w-[42rem]"
                                 >
                                     <button
                                         type="button"
                                         onClick={() => onSelectProject?.(project)}
-                                        className="project-card card-grid-hover group flex h-full min-h-[176px] w-full flex-row overflow-hidden rounded-[10px] border border-white/[0.14] bg-[#121514] text-left transition duration-300 hover:-translate-y-0.5 hover:border-[#FF3D00]/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF6B35] sm:min-h-[186px] lg:min-h-[210px]"
+                                        className="project-card card-grid-hover group flex h-full min-h-[176px] w-full flex-row overflow-hidden rounded-[10px] border border-white/[0.14] bg-[#121514] text-left transition duration-300 hover:-translate-y-0.5 hover:border-[#FF3D00]/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF6B35] sm:min-h-[206px] lg:min-h-[228px]"
                                     >
                                         <ProjectPreview
                                             project={project}
