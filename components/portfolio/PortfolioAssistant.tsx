@@ -1,7 +1,7 @@
 "use client";
 
-import { FormEvent, useState } from "react";
-import { MessageCircle, Send, Sparkles, X } from "lucide-react";
+import { FormEvent, useEffect, useState } from "react";
+import { MessageCircle, Send, Sparkles, Trash2, X } from "lucide-react";
 
 type Message = { role: "user" | "assistant"; content: string };
 const starter: Message = {
@@ -9,12 +9,50 @@ const starter: Message = {
     content:
         "Hi, I am Djibril. Ask me about my work, skills, education, or experience.",
 };
+const memoryKey = "djibril-portfolio-conversation";
+const maxRememberedMessages = 16;
 
 export default function PortfolioAssistant() {
     const [open, setOpen] = useState(false);
     const [input, setInput] = useState("");
     const [messages, setMessages] = useState<Message[]>([starter]);
     const [pending, setPending] = useState(false);
+    const [memoryReady, setMemoryReady] = useState(false);
+
+    useEffect(() => {
+        try {
+            const saved = JSON.parse(localStorage.getItem(memoryKey) || "[]");
+            if (Array.isArray(saved) && saved.length) {
+                const valid = saved.filter(
+                    (message): message is Message =>
+                        message &&
+                        (message.role === "user" ||
+                            message.role === "assistant") &&
+                        typeof message.content === "string" &&
+                        message.content.trim(),
+                );
+                if (valid.length)
+                    setMessages(valid.slice(-maxRememberedMessages));
+            }
+        } catch {
+            localStorage.removeItem(memoryKey);
+        } finally {
+            setMemoryReady(true);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (!memoryReady) return;
+        localStorage.setItem(
+            memoryKey,
+            JSON.stringify(messages.slice(-maxRememberedMessages)),
+        );
+    }, [memoryReady, messages]);
+
+    function clearMemory() {
+        localStorage.removeItem(memoryKey);
+        setMessages([starter]);
+    }
     async function submit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         const question = input.trim();
@@ -76,14 +114,25 @@ export default function PortfolioAssistant() {
                                 </p>
                             </div>
                         </div>
-                        <button
-                            type="button"
-                            onClick={() => setOpen(false)}
-                            aria-label="Close assistant"
-                            className="p-1.5 text-white/55 transition hover:text-[#FF6B35]"
-                        >
-                            <X className="h-4 w-4" />
-                        </button>
+                        <div className="flex items-center gap-1">
+                            <button
+                                type="button"
+                                onClick={clearMemory}
+                                aria-label="Clear saved conversation"
+                                title="Clear saved conversation"
+                                className="p-1.5 text-white/55 transition hover:text-[#FF6B35]"
+                            >
+                                <Trash2 className="h-3.5 w-3.5" />
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => setOpen(false)}
+                                aria-label="Close assistant"
+                                className="p-1.5 text-white/55 transition hover:text-[#FF6B35]"
+                            >
+                                <X className="h-4 w-4" />
+                            </button>
+                        </div>
                     </header>
                     <div className="flex-1 space-y-3 overflow-y-auto p-4">
                         {messages.map((message, index) => (
