@@ -5,8 +5,7 @@ alter table public.experiences add column if not exists category varchar(32) not
 alter table public.experiences alter column start_date drop not null;
 
 update public.experiences
-set category = case when type = 'organization' then 'organization' else 'work' end
-where category is null or category = '';
+set category = case when type = 'organization' then 'organization' else 'work' end;
 
 insert into public.experiences
   (company, position, category, type, start_date, end_date, is_current, description, location, is_visible, sort_order, created_at, updated_at)
