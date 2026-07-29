@@ -21,7 +21,7 @@ export function InputLabel({ label, children, className = "" }: { label: string;
 
 export const inputClass = "h-11 w-full border border-white/[0.14] bg-black/20 px-3 text-sm text-white outline-none transition placeholder:text-white/20 focus:border-[#FF3D00]/70";
 export const textareaClass = "min-h-28 w-full resize-y border border-white/[0.14] bg-black/20 px-3 py-3 text-sm leading-6 text-white outline-none transition placeholder:text-white/20 focus:border-[#FF3D00]/70";
-export const selectClass = inputClass;
+export const selectClass = "dashboard-select h-11 w-full appearance-none border border-white/[0.14] bg-[#121514] px-3 pr-10 font-semibold text-white outline-none transition placeholder:text-white/20 hover:border-[#FF6B35]/70 focus:border-[#FF3D00] focus:bg-[#171A18] focus:ring-1 focus:ring-[#FF3D00]/35";
 
 export function PrimaryButton({ children, pending, className = "", ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { pending?: boolean }) {
   return <button type="submit" disabled={pending || props.disabled} className={`inline-flex min-h-11 items-center justify-center gap-2 bg-[#FF3D00] px-4 text-sm font-bold text-white transition hover:bg-[#FF6B35] disabled:cursor-wait disabled:opacity-60 ${className}`} {...props}>{pending ? "Menyimpan..." : children}</button>;

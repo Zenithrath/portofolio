@@ -203,7 +203,7 @@ export default function ExperienceSection({ experiences, journey }) {
                             <select
                                 value={activeView}
                                 onChange={(event) => setActiveView(event.target.value)}
-                                className="w-full appearance-none rounded-[9px] border border-white/[0.14] bg-[#121514] px-3 py-2.5 pr-9 text-sm font-semibold text-white outline-none transition focus:border-[#FF3D00]"
+                                className="w-full appearance-none rounded-[9px] border border-white/[0.14] bg-[#121514] px-3 py-2.5 pr-9 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-white outline-none transition hover:border-[#FF6B35]/70 focus:border-[#FF3D00] focus:bg-[#171A18] focus:ring-1 focus:ring-[#FF3D00]/35"
                             >
                                 <option value="experience">Pekerjaan</option>
                                 <option value="journey">Journey</option>
