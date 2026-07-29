@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import PortfolioClient from "@/components/portfolio/PortfolioClient";
 import { getPortfolioData } from "@/lib/portfolio-data";
 
-export const revalidate = 60;
+// Public portfolio reads Supabase on every request so dashboard edits are visible immediately.
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
   const { personal } = await getPortfolioData();

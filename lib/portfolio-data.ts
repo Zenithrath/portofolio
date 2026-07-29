@@ -1,4 +1,3 @@
-import { unstable_cache } from "next/cache";
 import { createSupabasePublicClient } from "@/lib/supabase/public";
 import { createSupabaseServerClient } from "@/lib/supabase/server";
 import type {
@@ -94,10 +93,9 @@ async function loadPortfolioData(): Promise<PortfolioData> {
   };
 }
 
-export const getPortfolioData = unstable_cache(loadPortfolioData, ["portfolio-public"], {
-  revalidate: 60,
-  tags: ["portfolio"],
-});
+export async function getPortfolioData(): Promise<PortfolioData> {
+  return loadPortfolioData();
+}
 
 export async function getDashboardData(): Promise<DashboardData> {
   const supabase = await createSupabaseServerClient();
