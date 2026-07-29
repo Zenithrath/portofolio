@@ -19,12 +19,8 @@ export default function HeroSection({
     const mobilePortraitRef = useRef(null);
     const statsRef = useRef(null);
 
-    // `title` is the dashboard's primary hero field. `tagline` remains a legacy fallback.
-    const tagline =
-        personal?.title ||
-        personal?.tagline ||
-        "Portofolio mahasiswa teknologi informasi";
-    const words = tagline.trim().split(/\s+/);
+    const headline = personal?.title || "Portofolio mahasiswa teknologi informasi";
+    const words = headline.trim().split(/\s+/);
     const mid = Math.ceil(words.length / 2);
     const line1 = words.slice(0, mid).join(" ");
     const line2 = words.slice(mid).join(" ");

@@ -194,3 +194,7 @@ select * from (values
     ('Knowledge Agent', 'AI', 'Agent yang mengambil konteks dari knowledge base dan mengembalikan jawaban terstruktur.', 2025, true, true, 1)
 ) as seed(title, category, description, year, is_featured, is_visible, sort_order)
 where not exists (select 1 from public.projects);
+
+-- `title` is the single Hero headline field. The legacy tagline column is removed
+-- after seeding so both fresh and existing installations end with the same schema.
+alter table public.personals drop column if exists tagline;

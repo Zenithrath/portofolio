@@ -7,7 +7,6 @@ export type Personal = {
   university: string;
   faculty: string;
   bio: string;
-  tagline: string;
   photo: string | null;
   photo_url: string | null;
   location: string;
