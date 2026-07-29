@@ -31,3 +31,6 @@ where not exists (
 );
 
 drop table if exists public.journeys;
+
+-- Refresh PostgREST's schema cache immediately after the table change.
+notify pgrst, 'reload schema';
