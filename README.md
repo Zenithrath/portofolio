@@ -1,58 +1,68 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Next Portfolio
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Standalone Next.js App Router version of the portfolio. It replaces Laravel/Inertia for the public site, admin dashboard, auth, and file uploads while keeping the existing Supabase tables as the source of truth.
 
-## About Laravel
+## Included
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- Public portfolio generated on the server with 60-second revalidation.
+- Supabase Auth login, registration, confirmation callback, and protected dashboard route.
+- Direct CRUD for `personals`, `skills`, `journeys`, `projects`, `project_tags`, `certificates`, `experiences`, and `contacts`.
+- Supabase Storage uploads in the public `portfolio` bucket for profile photos, CVs, journey images, project thumbnails, and certificates.
+- RLS policy migration that allows writes only for users in `public.admin_users`.
+- The existing visual language: pixel reveal intro, glitch accents, GSAP scroll motion, cursor interaction, responsive hero, and public portfolio sections.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Local setup
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+1. Duplicate `.env.example` as `.env.local`.
+2. Fill `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` with the Supabase project URL and publishable/anon key.
+3. If the tables are not already present, run [`supabase/portfolio-schema.sql`](./supabase/portfolio-schema.sql) in Supabase SQL Editor.
+4. Run [`supabase/next-portfolio-security.sql`](./supabase/next-portfolio-security.sql) in Supabase SQL Editor.
+5. Start the app:
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
-
-## Agentic Development
-
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
-
-```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+```powershell
+npm install
+npm run dev
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+Open `http://127.0.0.1:3000`.
 
-## Contributing
+## Make an account an admin
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1. Register through `/auth/register` and confirm the email if confirmation is enabled.
+2. Sign in. The access screen shows the current auth UUID when the account is not yet an admin.
+3. In Supabase SQL Editor, run:
 
-## Code of Conduct
+```sql
+insert into public.admin_users (user_id)
+values ('PASTE_AUTH_USER_UUID_HERE');
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+4. Reload `/dashboard`.
 
-## Security Vulnerabilities
+Never place a Supabase service-role key in browser environment variables. The app is intentionally designed so the publishable key plus RLS is enough for the admin UI.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Supabase Auth settings
 
-## License
+In Supabase Auth URL Configuration, add the local and deployment callback URLs to the allowed redirect list:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```text
+http://127.0.0.1:3000/auth/callback
+https://YOUR-VERCEL-DOMAIN.vercel.app/auth/callback
+```
+
+The old Laravel storage paths are not automatically copied to Supabase Storage. Re-upload each existing photo, thumbnail, certificate image, journey image, and CV from the new dashboard once. New files are stored under the `portfolio` bucket automatically.
+
+## Deploy to Vercel
+
+1. Push the repository to GitHub.
+2. Import it in Vercel. The repository root is already the Next.js application.
+3. Add the same two `NEXT_PUBLIC_SUPABASE_*` variables in Vercel Project Settings.
+4. Deploy.
+5. Add the final Vercel callback URL to Supabase Auth settings.
+
+Run these checks before deployment:
+
+```powershell
+npm run lint
+npm run build
+```
