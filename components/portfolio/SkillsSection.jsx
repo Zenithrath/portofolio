@@ -148,7 +148,7 @@ export default function SkillsSection({ skills }) {
                             role="tabpanel"
                         >
                             {activeSkills.length > 0 ? (
-                                <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:gap-2 sm:overflow-visible sm:pb-0">
+                                <div className="grid min-w-0 grid-cols-2 gap-2 sm:gap-3">
                                     {activeSkills.map((skill, index) => {
                                         const proficiency = skill.proficiency ?? skill.level;
 
@@ -156,11 +156,11 @@ export default function SkillsSection({ skills }) {
                                             <div
                                                 key={skill.id || `${activeView.id}-${index}`}
                                                 className={[
-                                                    "flex min-h-12 w-[68vw] shrink-0 snap-start items-center justify-between gap-3 rounded-[9px] border border-white/[0.12] bg-[#151817] px-3 transition duration-200 hover:border-[#FF3D00]/45 sm:min-h-14 sm:w-auto sm:px-4",
+                                                    "flex min-h-12 min-w-0 items-center justify-between gap-2 rounded-[9px] border border-white/[0.12] bg-[#151817] px-3 transition duration-200 hover:border-[#FF3D00]/45 sm:min-h-14 sm:gap-3 sm:px-4",
                                                     index % 2 === 1 ? "sm:translate-x-3" : "",
                                                 ].join(" ")}
                                             >
-                                                <span className="text-[13px] font-semibold text-white sm:text-sm">
+                                                <span className="min-w-0 truncate text-[12px] font-semibold text-white sm:text-sm">
                                                     {skill.name}
                                                 </span>
                                                 {proficiency !== null && proficiency !== undefined && (
