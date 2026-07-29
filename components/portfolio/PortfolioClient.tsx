@@ -26,7 +26,6 @@ function formatCount(count: number) {
 export default function PortfolioClient({
   personal,
   skills,
-  journey,
   projects,
   certificates,
   experiences,
@@ -39,7 +38,7 @@ export default function PortfolioClient({
   const techSkills = skills.tech ?? [];
   const hardSkills = skills.hard ?? [];
   const softSkills = skills.soft ?? [];
-  const pathCount = experiences.length + journey.length;
+  const pathCount = experiences.length;
   const stats = [
     { label: "Project Selesai", value: formatCount(projects.length) },
     { label: "Skill Inti", value: formatCount(techSkills.length + hardSkills.length + softSkills.length) },
@@ -120,7 +119,7 @@ export default function PortfolioClient({
         <div className="relative overflow-hidden border-b border-white/[0.12] bg-[#101211] px-4 sm:px-6 lg:px-8">
           <div className="surface-grid pointer-events-none absolute inset-0 opacity-30" />
           <div className="relative mx-auto grid max-w-7xl items-stretch lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:gap-10">
-            <ExperienceSection experiences={experiences} journey={journey} />
+            <ExperienceSection experiences={experiences} />
             <div className="grid min-w-0 content-start border-t border-white/[0.12] lg:border-l lg:border-t-0 lg:pl-10">
               {hasQuote && <QuoteSection personal={personal} />}
               <ContactSection contacts={contacts} status={personal?.status} />

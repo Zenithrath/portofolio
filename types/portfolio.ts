@@ -30,21 +30,6 @@ export type Skill = {
   is_visible: boolean;
 };
 
-export type JourneyType = "education" | "work" | "achievement" | "organization";
-
-export type Journey = {
-  id: DatabaseId;
-  year: string;
-  title: string;
-  description: string;
-  type: JourneyType;
-  institution: string | null;
-  image: string | null;
-  image_url: string | null;
-  sort_order: number;
-  is_visible: boolean;
-};
-
 export type ProjectTag = {
   id: DatabaseId;
   project_id: DatabaseId;
@@ -81,13 +66,15 @@ export type Certificate = {
 };
 
 export type ExperienceType = "fulltime" | "parttime" | "internship" | "freelance" | "organization";
+export type ExperienceCategory = "work" | "education" | "organization" | "achievement";
 
 export type Experience = {
   id: DatabaseId;
   company: string;
   position: string;
   type: ExperienceType;
-  start_date: string;
+  category: ExperienceCategory;
+  start_date: string | null;
   end_date: string | null;
   is_current: boolean;
   description: string;
@@ -109,7 +96,6 @@ export type Contact = {
 export type PortfolioData = {
   personal: Personal | null;
   skills: Record<SkillCategory, Skill[]>;
-  journey: Journey[];
   projects: Project[];
   certificates: Certificate[];
   experiences: Experience[];
@@ -119,7 +105,6 @@ export type PortfolioData = {
 export type DashboardData = {
   personal: Personal | null;
   skills: Skill[];
-  journey: Journey[];
   projects: Project[];
   certificates: Certificate[];
   experiences: Experience[];

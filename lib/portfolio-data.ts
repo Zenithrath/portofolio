@@ -5,7 +5,6 @@ import type {
   Contact,
   DashboardData,
   Experience,
-  Journey,
   Personal,
   PortfolioData,
   Project,
@@ -16,7 +15,6 @@ import type {
 const EMPTY_PORTFOLIO: PortfolioData = {
   personal: null,
   skills: { tech: [], hard: [], soft: [] },
-  journey: [],
   projects: [],
   certificates: [],
   experiences: [],
@@ -35,10 +33,6 @@ function mapPersonal(row: Omit<Personal, "photo_url" | "cv_url"> | null): Person
   return { ...row, photo_url: publicUrl(row.photo), cv_url: publicUrl(row.cv_file) };
 }
 
-function mapJourney(row: Omit<Journey, "image_url">): Journey {
-  return { ...row, image_url: publicUrl(row.image) };
-}
-
 function mapProject(row: Omit<Project, "thumbnail_url" | "tags"> & { project_tags?: ProjectTag[] | null }): Project {
   return {
     ...row,
@@ -55,21 +49,19 @@ async function loadPortfolioData(): Promise<PortfolioData> {
   const supabase = createSupabasePublicClient();
   if (!supabase) return EMPTY_PORTFOLIO;
 
-  const [personalResult, skillsResult, journeyResult, projectsResult, certificatesResult, experiencesResult, contactsResult] = await Promise.all([
+  const [personalResult, skillsResult, projectsResult, certificatesResult, experiencesResult, contactsResult] = await Promise.all([
     supabase.from("personals").select("*").limit(1).maybeSingle(),
     supabase.from("skills").select("*").eq("is_visible", true).order("sort_order"),
-    supabase.from("journeys").select("*").eq("is_visible", true).order("sort_order"),
     supabase.from("projects").select("*, project_tags(*)").eq("is_visible", true).order("sort_order"),
     supabase.from("certificates").select("*").eq("is_visible", true).order("sort_order"),
     supabase.from("experiences").select("*").eq("is_visible", true).order("sort_order"),
     supabase.from("contacts").select("*").eq("is_visible", true).order("sort_order"),
   ]);
 
-  if ([personalResult, skillsResult, journeyResult, projectsResult, certificatesResult, experiencesResult, contactsResult].some((result) => result.error)) {
+  if ([personalResult, skillsResult, projectsResult, certificatesResult, experiencesResult, contactsResult].some((result) => result.error)) {
     console.error("Unable to load portfolio data", {
       personal: personalResult.error?.message,
       skills: skillsResult.error?.message,
-      journey: journeyResult.error?.message,
       projects: projectsResult.error?.message,
       certificates: certificatesResult.error?.message,
       experiences: experiencesResult.error?.message,
@@ -85,7 +77,6 @@ async function loadPortfolioData(): Promise<PortfolioData> {
   return {
     personal: mapPersonal(personalResult.data as Omit<Personal, "photo_url" | "cv_url"> | null),
     skills: groupedSkills,
-    journey: ((journeyResult.data ?? []) as Omit<Journey, "image_url">[]).map(mapJourney),
     projects: ((projectsResult.data ?? []) as (Omit<Project, "thumbnail_url" | "tags"> & { project_tags?: ProjectTag[] | null })[]).map(mapProject),
     certificates: ((certificatesResult.data ?? []) as Omit<Certificate, "image_url">[]).map(mapCertificate),
     experiences: (experiencesResult.data ?? []) as Experience[],
@@ -101,10 +92,9 @@ export async function getDashboardData(): Promise<DashboardData> {
   const supabase = await createSupabaseServerClient();
   if (!supabase) return { ...EMPTY_PORTFOLIO, skills: [] };
 
-  const [personalResult, skillsResult, journeyResult, projectsResult, certificatesResult, experiencesResult, contactsResult] = await Promise.all([
+  const [personalResult, skillsResult, projectsResult, certificatesResult, experiencesResult, contactsResult] = await Promise.all([
     supabase.from("personals").select("*").limit(1).maybeSingle(),
     supabase.from("skills").select("*").order("sort_order"),
-    supabase.from("journeys").select("*").order("sort_order"),
     supabase.from("projects").select("*, project_tags(*)").order("sort_order"),
     supabase.from("certificates").select("*").order("sort_order"),
     supabase.from("experiences").select("*").order("sort_order"),
@@ -114,7 +104,6 @@ export async function getDashboardData(): Promise<DashboardData> {
   return {
     personal: mapPersonal(personalResult.data as Omit<Personal, "photo_url" | "cv_url"> | null),
     skills: (skillsResult.data ?? []) as Skill[],
-    journey: ((journeyResult.data ?? []) as Omit<Journey, "image_url">[]).map(mapJourney),
     projects: ((projectsResult.data ?? []) as (Omit<Project, "thumbnail_url" | "tags"> & { project_tags?: ProjectTag[] | null })[]).map(mapProject),
     certificates: ((certificatesResult.data ?? []) as Omit<Certificate, "image_url">[]).map(mapCertificate),
     experiences: (experiencesResult.data ?? []) as Experience[],

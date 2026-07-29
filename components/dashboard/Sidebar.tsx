@@ -1,14 +1,13 @@
 "use client";
 
-import { Award, BriefcaseBusiness, Compass, FileText, FolderKanban, LogOut, Mail, Menu, Quote, UserRound, Wrench, X } from "lucide-react";
+import { Award, BriefcaseBusiness, FileText, FolderKanban, LogOut, Mail, Menu, Quote, UserRound, Wrench, X } from "lucide-react";
 import { createSupabaseBrowserClient } from "@/lib/supabase/client";
 
-export type DashboardTab = "personal" | "skills" | "journey" | "projects" | "certificates" | "experience" | "quote" | "contact" | "cv";
+export type DashboardTab = "personal" | "skills" | "projects" | "certificates" | "experience" | "quote" | "contact" | "cv";
 
 const items: { id: DashboardTab; label: string; icon: typeof UserRound }[] = [
   { id: "personal", label: "Info Personal", icon: UserRound },
   { id: "skills", label: "Keahlian", icon: Wrench },
-  { id: "journey", label: "Perjalanan", icon: Compass },
   { id: "projects", label: "Proyek", icon: FolderKanban },
   { id: "certificates", label: "Sertifikasi", icon: Award },
   { id: "experience", label: "Pengalaman", icon: BriefcaseBusiness },

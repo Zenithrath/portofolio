@@ -9,7 +9,6 @@ import { refreshPublicPortfolio, requireDashboardSession, type MutationRunner } 
 import Sidebar, { type DashboardTab } from "./Sidebar";
 import PersonalPanel from "./PersonalPanel";
 import SkillsPanel from "./SkillsPanel";
-import JourneyPanel from "./JourneyPanel";
 import ProjectsPanel from "./ProjectsPanel";
 import CertificatesPanel from "./CertificatesPanel";
 import ExperiencePanel from "./ExperiencePanel";
@@ -58,7 +57,6 @@ export default function DashboardClient({ data, email }: { data: DashboardData; 
   let panel;
   switch (activeTab) {
     case "skills": panel = <SkillsPanel skills={data.skills} mutate={mutate} pending={pending} />; break;
-    case "journey": panel = <JourneyPanel journey={data.journey} mutate={mutate} pending={pending} />; break;
     case "projects": panel = <ProjectsPanel projects={data.projects} mutate={mutate} pending={pending} />; break;
     case "certificates": panel = <CertificatesPanel certificates={data.certificates} mutate={mutate} pending={pending} />; break;
     case "experience": panel = <ExperiencePanel experiences={data.experiences} mutate={mutate} pending={pending} />; break;

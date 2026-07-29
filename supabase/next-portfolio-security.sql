@@ -3,9 +3,9 @@
 -- Any signed-in Supabase user may manage this single-owner portfolio.
 
 grant usage on schema public to anon, authenticated;
-grant select on table public.personals, public.skills, public.journeys, public.projects,
+grant select on table public.personals, public.skills, public.projects,
   public.project_tags, public.certificates, public.experiences, public.contacts to anon, authenticated;
-grant insert, update, delete on table public.personals, public.skills, public.journeys,
+grant insert, update, delete on table public.personals, public.skills,
   public.projects, public.project_tags, public.certificates, public.experiences, public.contacts to authenticated;
 grant usage, select on all sequences in schema public to authenticated;
 
@@ -15,7 +15,7 @@ declare
   existing_policy record;
 begin
   foreach portfolio_table in array array[
-    'personals', 'skills', 'journeys', 'projects', 'project_tags',
+    'personals', 'skills', 'projects', 'project_tags',
     'certificates', 'experiences', 'contacts'
   ] loop
     execute format('alter table public.%I enable row level security', portfolio_table);
