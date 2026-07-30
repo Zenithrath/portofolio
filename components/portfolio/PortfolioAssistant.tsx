@@ -14,7 +14,7 @@ const maxRememberedMessages = 16;
 
 function linkifyMessage(content: string): ReactNode {
     const parts = content.split(
-        /(\[[^\]]+\]\(https?:\/\/[^\s)]+\)|https?:\/\/[^\s)]+|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,})/g,
+        /(\[[^\]]+\]\(https?:\/\/[^\s)]+\)|https?:\/\/[^\s)]+|mailto:[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,})/g,
     );
 
     return parts.map((part, index) => {
@@ -34,11 +34,24 @@ function linkifyMessage(content: string): ReactNode {
                 </a>
             );
         }
-        if (/^https?:\/\//i.test(part)) {
+        if (/^mailto:/i.test(part)) {
+            const email = part.replace(/^mailto:/i, "");
             return (
                 <a
                     key={`${part}-${index}`}
-                    href={part}
+                    href={`mailto:${email}`}
+                    className="break-all text-[#FF8A65] underline decoration-[#FF3D00]/70 underline-offset-2 transition hover:text-white"
+                >
+                    {email}
+                </a>
+            );
+        }
+        if (/^https?:\/\//i.test(part)) {
+            const href = part.replace(/[.,!?;:]+$/, "");
+            return (
+                <a
+                    key={`${part}-${index}`}
+                    href={href}
                     target="_blank"
                     rel="noreferrer"
                     className="break-all text-[#FF8A65] underline decoration-[#FF3D00]/70 underline-offset-2 transition hover:text-white"
