@@ -14,10 +14,26 @@ const maxRememberedMessages = 16;
 
 function linkifyMessage(content: string): ReactNode {
     const parts = content.split(
-        /(https?:\/\/[^\s]+|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,})/g,
+        /(\[[^\]]+\]\(https?:\/\/[^\s)]+\)|https?:\/\/[^\s)]+|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,})/g,
     );
 
     return parts.map((part, index) => {
+        const markdownLink = part.match(
+            /^\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)$/,
+        );
+        if (markdownLink) {
+            return (
+                <a
+                    key={`${part}-${index}`}
+                    href={markdownLink[2]}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="break-all text-[#FF8A65] underline decoration-[#FF3D00]/70 underline-offset-2 transition hover:text-white"
+                >
+                    {markdownLink[1]}
+                </a>
+            );
+        }
         if (/^https?:\/\//i.test(part)) {
             return (
                 <a
