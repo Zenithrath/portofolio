@@ -9,7 +9,7 @@ const starter: Message = {
     content:
         "Hi, I am Djibril. Ask me about my work, skills, education, or experience.",
 };
-const memoryKey = "djibril-portfolio-conversation-v2";
+const memoryKey = "djibril-portfolio-conversation-v3";
 const maxRememberedMessages = 16;
 
 function linkifyMessage(content: string): ReactNode {

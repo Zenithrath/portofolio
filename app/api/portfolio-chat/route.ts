@@ -30,6 +30,30 @@ function extractAnswer(raw: string | undefined) {
     return looksLikeInternalReasoning ? "" : content;
 }
 
+function contactUrl(platform: string, value: string) {
+    if (platform.toLowerCase() !== "whatsapp") return value;
+    if (/^https?:\/\//i.test(value)) return value;
+    return `https://wa.me/${value.replace(/[^\d+]/g, "").replace(/^\+/, "")}`;
+}
+
+function contactAnswer(data: Awaited<ReturnType<typeof getPortfolioData>>) {
+    const email = data.contacts.find(
+        (contact) => contact.platform.toLowerCase() === "email",
+    );
+    const whatsapp = data.contacts.find(
+        (contact) => contact.platform.toLowerCase() === "whatsapp",
+    );
+    const channels = [
+        email &&
+            `email at ${email.value.includes("@") ? email.value : email.value.replace(/gmail\.com$/i, "@gmail.com")}`,
+        whatsapp &&
+            `WhatsApp at ${contactUrl(whatsapp.platform, whatsapp.value)}`,
+    ].filter(Boolean);
+    return channels.length
+        ? `You can reach me via ${channels.join(" or ")}.`
+        : "I have not added a public contact channel yet.";
+}
+
 function portfolioContext(data: Awaited<ReturnType<typeof getPortfolioData>>) {
     const personal = data.personal;
     return JSON.stringify({
@@ -112,6 +136,14 @@ export async function POST(request: Request) {
     }
 
     const data = await getPortfolioData();
+    const question = lastUserMessage.content.toLowerCase();
+    if (
+        /\b(contact|email|whatsapp|reach|hire|message me|hubungi|kontak)\b/.test(
+            question,
+        )
+    ) {
+        return NextResponse.json({ answer: contactAnswer(data) });
+    }
     const response = await fetch(
         "https://openrouter.ai/api/v1/chat/completions",
         {
