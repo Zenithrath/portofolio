@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, ReactNode, useEffect, useState } from "react";
 import { MessageCircle, Send, Sparkles, Trash2, X } from "lucide-react";
 
 type Message = { role: "user" | "assistant"; content: string };
@@ -11,6 +11,40 @@ const starter: Message = {
 };
 const memoryKey = "djibril-portfolio-conversation";
 const maxRememberedMessages = 16;
+
+function linkifyMessage(content: string): ReactNode {
+    const parts = content.split(
+        /(https?:\/\/[^\s]+|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,})/g,
+    );
+
+    return parts.map((part, index) => {
+        if (/^https?:\/\//i.test(part)) {
+            return (
+                <a
+                    key={`${part}-${index}`}
+                    href={part}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="break-all text-[#FF8A65] underline decoration-[#FF3D00]/70 underline-offset-2 transition hover:text-white"
+                >
+                    {part}
+                </a>
+            );
+        }
+        if (/^[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}$/.test(part)) {
+            return (
+                <a
+                    key={`${part}-${index}`}
+                    href={`mailto:${part}`}
+                    className="break-all text-[#FF8A65] underline decoration-[#FF3D00]/70 underline-offset-2 transition hover:text-white"
+                >
+                    {part}
+                </a>
+            );
+        }
+        return <span key={`${part}-${index}`}>{part}</span>;
+    });
+}
 
 export default function PortfolioAssistant() {
     const [open, setOpen] = useState(false);
@@ -138,9 +172,9 @@ export default function PortfolioAssistant() {
                         {messages.map((message, index) => (
                             <div
                                 key={`${message.role}-${index}`}
-                                className={`max-w-[88%] border px-3 py-2.5 text-sm leading-6 ${message.role === "user" ? "ml-auto border-[#FF3D00]/50 bg-[#FF3D00] text-white" : "border-white/[0.12] bg-white/[0.04] text-white/75"}`}
+                                className={`min-w-0 max-w-[88%] break-words [overflow-wrap:anywhere] border px-3 py-2.5 text-sm leading-6 ${message.role === "user" ? "ml-auto border-[#FF3D00]/50 bg-[#FF3D00] text-white" : "border-white/[0.12] bg-white/[0.04] text-white/75"}`}
                             >
-                                {message.content}
+                                {linkifyMessage(message.content)}
                             </div>
                         ))}
                         {pending && (
