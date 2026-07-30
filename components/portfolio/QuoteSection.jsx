@@ -14,7 +14,7 @@ export default function QuoteSection({ personal }) {
                     <div className="font-['Syne'] text-4xl font-extrabold leading-none text-white/20">
                         &quot;
                     </div>
-                    <h3 className="max-w-2xl break-words font-['Syne'] text-xl font-extrabold italic leading-tight text-white sm:text-2xl">
+                    <h3 className="max-w-2xl break-words font-['Syne'] text-xl font-extrabold italic leading-tight text-white sm:text-2xl" style={{ overflowWrap: "break-word", wordBreak: "break-word" }}>
                         &quot;{personal.quote}&quot;
                     </h3>
                 </div>
