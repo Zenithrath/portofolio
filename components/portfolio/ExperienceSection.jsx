@@ -130,7 +130,7 @@ export default function ExperienceSection({ experiences }) {
     return (
         <section
             id="experience"
-            className="relative min-w-0 overflow-hidden py-8 sm:py-10 lg:py-16"
+            className="relative min-w-0 py-8 sm:py-10 lg:py-16"
         >
             <Reveal className="mx-auto max-w-none space-y-6 lg:space-y-9">
                 <div className="grid gap-5 border-b border-white/[0.12] pb-5 lg:grid-cols-[minmax(9rem,0.24fr)_minmax(0,0.76fr)] lg:items-end lg:gap-8">
