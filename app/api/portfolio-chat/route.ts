@@ -36,6 +36,13 @@ function contactUrl(platform: string, value: string) {
     return `https://wa.me/${value.replace(/[^\d+]/g, "").replace(/^\+/, "")}`;
 }
 
+function emailAddress(value: string) {
+    const email = value.replace(/^mailto:/i, "");
+    return email.includes("@")
+        ? email
+        : email.replace(/gmail\.com$/i, "@gmail.com");
+}
+
 function contactAnswer(data: Awaited<ReturnType<typeof getPortfolioData>>) {
     const email = data.contacts.find(
         (contact) => contact.platform.toLowerCase() === "email",
@@ -44,8 +51,7 @@ function contactAnswer(data: Awaited<ReturnType<typeof getPortfolioData>>) {
         (contact) => contact.platform.toLowerCase() === "whatsapp",
     );
     const channels = [
-        email &&
-            `email at ${email.value.includes("@") ? email.value : email.value.replace(/gmail\.com$/i, "@gmail.com")}`,
+        email && `email at ${emailAddress(email.value)}`,
         whatsapp &&
             `WhatsApp at ${contactUrl(whatsapp.platform, whatsapp.value)}`,
     ].filter(Boolean);
