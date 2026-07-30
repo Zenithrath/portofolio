@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     applicationName: "Djibril Rangga Deja Portfolio",
     creator: "Djibril Rangga Deja",
     verification: {
-        google: "olju8CPNkdY5OkT_oRbFksiHdUsm7PA2a0z_K4Dgr0Y",
+        google: "GjrR4z1xGp9nSxeH0cZCnzHOfRIJGtHbG3x-BG5oKu8",
     },
     keywords: [
         "Djibril Rangga Deja",
