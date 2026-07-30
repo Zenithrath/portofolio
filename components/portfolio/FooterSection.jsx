@@ -82,7 +82,7 @@ export default function FooterSection({ personal, contacts = [] }) {
 
     return (
         <footer className="border-t border-white/[0.16] bg-[#0B0D0C] px-4 sm:px-6 lg:px-8">
-            <div className="mx-auto max-w-7xl overflow-hidden py-6 sm:py-8 lg:py-10">
+            <div className="mx-auto w-full max-w-7xl py-6 sm:py-8 lg:py-10">
                 <div className="grid min-w-0 gap-6 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto] lg:items-end lg:gap-10">
                     <div className="border-l-2 border-[#FF3D00] pl-4">
                         <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-[#FF6B35]">
