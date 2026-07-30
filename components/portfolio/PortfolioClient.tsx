@@ -162,7 +162,7 @@ export default function PortfolioClient({
                     certificates={certificates}
                     onSelectCertificate={openCertificate}
                 />
-                <div className="relative overflow-hidden border-b border-white/[0.12] bg-[#101211] px-4 sm:px-6 lg:px-8">
+                <div className="relative border-b border-white/[0.12] bg-[#101211] px-4 sm:px-6 lg:px-8">
                     <div className="surface-grid pointer-events-none absolute inset-0 opacity-30" />
                     <div className="relative mx-auto grid max-w-7xl items-stretch lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:gap-10">
                         <ExperienceSection experiences={experiences} />
