@@ -5,7 +5,7 @@ export default function QuoteSection({ personal }) {
     if (!personal?.quote) return null;
 
     return (
-        <section className="min-w-0 overflow-hidden border-b border-white/[0.12] py-7 sm:py-8 lg:py-10">
+        <section className="min-w-0 border-b border-white/[0.12] py-7 sm:py-8 lg:py-10">
             <Reveal className="flex min-w-0 flex-col justify-between gap-5">
                 <div className="gsap-reveal min-w-0 space-y-3">
                     <p className="inline-flex border-l-2 border-[#FF3D00] pl-3 font-mono text-[10px] uppercase tracking-[0.24em] text-white/75">
@@ -14,7 +14,7 @@ export default function QuoteSection({ personal }) {
                     <div className="font-['Syne'] text-4xl font-extrabold leading-none text-white/20">
                         &quot;
                     </div>
-                    <h3 className="min-w-0 max-w-full font-['Syne'] text-lg font-extrabold italic leading-tight text-white sm:text-xl md:text-2xl">
+                    <h3 className="min-w-0 max-w-full font-['Syne'] text-base font-extrabold italic leading-tight text-white sm:text-lg md:text-2xl lg:text-3xl" style={{ overflowWrap: "anywhere" }}>
                         &quot;{personal.quote}&quot;
                     </h3>
                 </div>

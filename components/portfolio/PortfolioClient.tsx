@@ -164,9 +164,9 @@ export default function PortfolioClient({
                 />
                 <div className="relative overflow-x-hidden border-b border-white/[0.12] bg-[#101211] px-4 sm:px-6 lg:px-8">
                     <div className="surface-grid pointer-events-none absolute inset-0 opacity-30" />
-                    <div className="relative mx-auto grid max-w-7xl items-stretch overflow-hidden lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:gap-10">
+                    <div className="relative mx-auto grid max-w-7xl items-stretch lg:grid-cols-[minmax(0,1.12fr)_minmax(0,0.88fr)] lg:gap-10">
                         <ExperienceSection experiences={experiences} />
-                        <div className="grid min-w-0 content-start overflow-hidden border-t border-white/[0.12] lg:border-l lg:border-t-0 lg:pl-10">
+                        <div className="grid min-w-0 content-start border-t border-white/[0.12] lg:border-l lg:border-t-0 lg:pl-10">
                             {hasQuote && <QuoteSection personal={personal} />}
                             <ContactSection
                                 contacts={contacts}
