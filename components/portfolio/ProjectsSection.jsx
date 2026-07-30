@@ -8,7 +8,7 @@ function ProjectPreview({ project, number }) {
 
     if (project.thumbnail_url) {
         return (
-            <div className="relative min-h-[176px] w-[38%] shrink-0 overflow-hidden bg-[#151817] sm:min-h-[186px] md:min-h-[170px] md:w-[40%]">
+            <div className="relative h-[220px] w-full shrink-0 overflow-hidden bg-[#151817] sm:h-[280px] md:h-[320px]">
                 <img
                     src={project.thumbnail_url}
                     alt={title}
@@ -24,7 +24,7 @@ function ProjectPreview({ project, number }) {
     }
 
     return (
-        <div className="surface-grid relative min-h-[176px] w-[38%] shrink-0 overflow-hidden bg-[#151817] p-3 sm:min-h-[186px] sm:p-4 md:min-h-[170px] md:w-[40%]">
+        <div className="surface-grid relative h-[220px] w-full shrink-0 overflow-hidden bg-[#151817] p-3 sm:h-[280px] sm:p-4 md:h-[320px]">
             <div className="absolute inset-0 bg-[#151817]/55" />
             <div className="relative z-10 flex h-full flex-col justify-between">
                 <span className="w-fit rounded-lg border border-white/[0.14] bg-black/20 px-2 py-1 font-mono text-[10px] font-bold tracking-[0.16em] text-white/70">
@@ -196,7 +196,7 @@ export default function ProjectsSection({ projects, onSelectProject }) {
                                         onClick={() =>
                                             onSelectProject?.(project)
                                         }
-                                        className="project-card card-grid-hover group flex h-full min-h-[176px] w-full flex-row overflow-hidden rounded-[10px] border border-white/[0.14] bg-[#121514] text-left transition duration-300 hover:-translate-y-0.5 hover:border-[#FF3D00]/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF6B35] sm:min-h-[206px] lg:min-h-[228px]"
+                                        className="project-card card-grid-hover group flex h-full w-full flex-col overflow-hidden rounded-[10px] border border-white/[0.14] bg-[#121514] text-left transition duration-300 hover:-translate-y-0.5 hover:border-[#FF3D00]/70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#FF6B35]"
                                     >
                                         <ProjectPreview
                                             project={project}
