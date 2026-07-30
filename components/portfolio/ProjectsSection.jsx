@@ -8,7 +8,7 @@ function ProjectPreview({ project, number }) {
 
     if (project.thumbnail_url) {
         return (
-            <div className="relative h-[220px] w-full shrink-0 overflow-hidden bg-[#151817] sm:h-[280px] md:h-[320px]">
+            <div className="relative h-[160px] w-full shrink-0 overflow-hidden bg-[#151817] sm:h-[200px] md:h-[240px]">
                 <img
                     src={project.thumbnail_url}
                     alt={title}
@@ -24,7 +24,7 @@ function ProjectPreview({ project, number }) {
     }
 
     return (
-        <div className="surface-grid relative h-[220px] w-full shrink-0 overflow-hidden bg-[#151817] p-3 sm:h-[280px] sm:p-4 md:h-[320px]">
+        <div className="surface-grid relative h-[160px] w-full shrink-0 overflow-hidden bg-[#151817] p-3 sm:h-[200px] sm:p-4 md:h-[240px]">
             <div className="absolute inset-0 bg-[#151817]/55" />
             <div className="relative z-10 flex h-full flex-col justify-between">
                 <span className="w-fit rounded-lg border border-white/[0.14] bg-black/20 px-2 py-1 font-mono text-[10px] font-bold tracking-[0.16em] text-white/70">
