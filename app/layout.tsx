@@ -14,6 +14,9 @@ export const metadata: Metadata = {
         "Djibril Rangga Deja is an Information Technology student at Universitas Brawijaya focused on AI engineering, workflow automation, and practical digital products.",
     applicationName: "Djibril Rangga Deja Portfolio",
     creator: "Djibril Rangga Deja",
+    verification: {
+        google: "olju8CPNkdY5OkT_oRbFksiHdUsm7PA2a0z_K4Dgr0Y",
+    },
     keywords: [
         "Djibril Rangga Deja",
         "AI engineer",
