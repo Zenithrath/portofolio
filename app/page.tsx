@@ -34,7 +34,7 @@ export async function generateMetadata(): Promise<Metadata> {
                 ...Object.values(data.skills)
                     .flat()
                     .map((skill) => skill.name),
-            ].filter(Boolean),
+            ].filter((keyword): keyword is string => Boolean(keyword)),
         ),
     );
 
