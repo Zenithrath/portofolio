@@ -10,15 +10,41 @@ export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 export async function generateMetadata(): Promise<Metadata> {
-    const { personal } = await getPortfolioData();
-    const title = personal?.name ? `${personal.name} | Portfolio` : "Portfolio";
+    const data = await getPortfolioData();
+    const { personal } = data;
+    const title = personal?.name
+        ? `${personal.name} | ${personal.title || "Portfolio"}`
+        : "Djibril Rangga Deja | Portfolio";
     const description =
         personal?.bio ||
         "A portfolio featuring profile, selected work, skills, and experience.";
+    const keywords = Array.from(
+        new Set(
+            [
+                personal?.name,
+                personal?.title,
+                personal?.university,
+                personal?.faculty,
+                personal?.location,
+                ...data.projects.flatMap((project) => [
+                    project.title,
+                    project.category,
+                    ...project.tags.map((tag) => tag.tag),
+                ]),
+                ...Object.values(data.skills)
+                    .flat()
+                    .map((skill) => skill.name),
+            ].filter(Boolean),
+        ),
+    );
 
     return {
         title,
         description,
+        keywords,
+        authors: [
+            { name: personal?.name || "Djibril Rangga Deja", url: siteUrl },
+        ],
         alternates: { canonical: "/" },
         robots: { index: true, follow: true },
         openGraph: {
