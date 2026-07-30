@@ -53,7 +53,7 @@ export default function ContactSection({ contacts, status }) {
                 </div>
 
                 {list.length > 0 ? (
-                    <div className="gsap-stagger-group flex gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:overflow-visible sm:pb-0">
+                    <div className="gsap-stagger-group flex gap-3 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory sm:grid sm:grid-cols-2 sm:overflow-hidden sm:pb-0">
                         {list.map((contact) => {
                             const Icon = getIcon(contact.platform);
 
